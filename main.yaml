@@ -1,0 +1,63 @@
+#
+# ESP32 SSR Floor Heating Controller
+#
+# https://github.com/jnasholm/mvc-pwm/tree/main
+#
+# Main configuration
+#
+substitutions:
+  node_name: mvc1
+  node_prefix: GVS
+
+# Board configuration
+esphome:
+  project:
+    name: "jnasholm.mvc-pwm"
+    version: "0.1"
+  name: $node_name
+  platform: ESP32
+  board: esp32-devkitlipo
+#  board: esp32-poe-iso
+
+# Flash write interval
+preferences:
+  flash_write_interval: 20min
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: !secret hass_api_key
+
+# Enable OTA
+ota:
+  password: !secret ota_password
+
+# Node switches
+switch:
+  - platform: restart
+    name: $node_prefix starta om nod
+#  - platform: shutdown
+#    name: $node_prefix stäng av nod
+
+# Node uptime
+sensor:
+  - platform: uptime
+    name: $node_prefix drifttid
+    icon: mdi:timer-outline
+    update_interval: 60s
+
+# Include packages
+packages:
+  wifi: !include wifi.yaml
+#  ethernet: !include ethernet.yaml
+#  battery: !include battery.yaml
+  time: !include time.yaml
+  status: !include status.yaml
+  homeassistant: !include sensors-homeassistant.yaml
+  line_temp: !include sensors-line_temp.yaml
+  outdoor_temp: !include sensors-outdoor_temp.yaml
+  supply_line: !include control-supply_line.yaml
+  mixing_valve: !include control-mixing_valve.yaml
