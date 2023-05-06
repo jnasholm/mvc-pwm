@@ -14,8 +14,8 @@ The controller IO pins are assigned according to the table below[^1][^2][^3].
 |Mixing valve actuator increase|26|
 |Distributor line temperature sensors (DS18B20)|27|
 |Outdoor temperature sensor (DS18B20)|14|
-|Outdoor temperature sensor (NTC)|34|
-|Outdoor temperature sensor power (NTC)|13|
+|Outdoor temperature sensor (NTC)|34|Downstream configuration with 5.66kOhm resistance at 5°C
+|Outdoor temperature sensor power (NTC)|13|Supply +3.3V over a 1.0kOhm resistor
 |System status LED|32|
 |Controller status LED|33|
 |Battery voltage|35|May require soldering on the ESP32 board to enable|
