@@ -11,3 +11,12 @@ Project to create a smart mixing valve actuator controller for private homes wit
 - The [mixing valve actuator](https://esbe.eu/group/products/rotary-actuators/ara600-3-point) is a stepper motor also operated with 24 VAC.
 - The switching modules are equipped with [solid state relays](https://www.velleman.eu/products/view/?id=461412).
 - Integration with [Home Assistant](https://www.home-assistant.io/) is recommende. Sensor data and configuration parameters can be imported to operate the controller.
+
+## Description
+
+t.b.w.
+
+**Note:** The controller hardware is theoretically capable of operating 110-230 VAC mixing valve actuators. This will however not be tested in the project.
+
+[^1]: [PI Parameter Influence on Underfloor Heating Energy Consumption and Setpoint Tracking in nZEBs](https://www.mdpi.com/1996-1073/13/8/2068)
+[^2]: [Reglering, om P-, I-, D-bidraget](https://www.bastec.se/anvandarmanual/reglering-p-i-d-bidraget/)
