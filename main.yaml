@@ -56,6 +56,7 @@ packages:
 #  battery: !include battery.yaml
   time: !include time.yaml
   status: !include status.yaml
+  controls: !include controls.yaml
   homeassistant: !include sensors-homeassistant.yaml
   line_temp: !include sensors-line_temp.yaml
   outdoor_temp: !include sensors-outdoor_temp.yaml
