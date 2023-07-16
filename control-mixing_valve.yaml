@@ -1,29 +1,67 @@
 # Mixing valve controller configuration
 
 # Relay configuration
+switch:
+  # Relay actuator decrease
+  - platform: gpio
+    id: ${node_name}_relay_decrease
+    interlock: [ "${node_name}_relay_increase" ]
+    pin:
+      number: GPIO25
+      inverted: true
+    on_turn_on:
+      - delay: 1s
+      - switch.turn_off: ${node_name}_relay_decrease
+  # Relay actuator increase
+  - platform: gpio
+    id: ${node_name}_relay_increase
+    interlock: [ "${node_name}_relay_decrease" ]
+    pin:
+      number: GPIO26
+      inverted: true
+    on_turn_on:
+      - delay: 1s
+      - switch.turn_off: ${node_name}_relay_increase
 
-# Mixing valve actuator decrease
+# Output configuration
 # Calculate min_power to be a 1s pulse for ESBE valve actuators (1/period)
 output:
+  # Mixing valve actuator decrease
   - platform: slow_pwm
     id: ${node_name}_mixing_valve_actuator_decrease
     period: 20s
     max_power: 0.4
     min_power: 0.05
     zero_means_zero: true
-    pin:
-      number: GPIO25
-      inverted: true
-# Mixing valve actuator increase
+    turn_on_action:
+      - lambda: |-
+          if ( ${node_name}_auto_mode )
+            id(${node_name}_relay_decrease).turn_on();
+    turn_off_action:
+      - lambda: |-
+          if ( ${node_name}_auto_mode )
+            id(${node_name}_relay_decrease).turn_off();
+#    pin:
+#      number: GPIO25
+#      inverted: true
+  # Mixing valve actuator increase
   - platform: slow_pwm
     id: ${node_name}_mixing_valve_actuator_increase
     period: 20s
     max_power: 0.4
     min_power: 0.05
     zero_means_zero: true
-    pin:
-      number: GPIO26
-      inverted: true
+    turn_on_action:
+      - lambda: |-
+          if ( ${node_name}_auto_mode )
+            id(${node_name}_relay_increase).turn_on();
+    turn_off_action:
+      - lambda: |-
+          if ( ${node_name}_auto_mode )
+            id(${node_name}_relay_increase).turn_off();
+#    pin:
+#      number: GPIO26
+#      inverted: true
 
 # Thermostat configuration
 
@@ -78,7 +116,7 @@ sensor:
 
 # Mixing valve actuator operational indicators
 binary_sensor:
-# Decrease
+  # Decrease
   - platform: template
     name: $node_prefix minska
     id: ${node_name}_mixing_valve_status_decrease
@@ -93,7 +131,7 @@ binary_sensor:
       } else {
         return false;
       }
-# Neutral
+  # Neutral
   - platform: template
     name: $node_prefix neutral
     id: ${node_name}_mixing_valve_status_neutral
@@ -107,7 +145,7 @@ binary_sensor:
       } else {
         return false;
       }
-# Increase
+  # Increase
   - platform: template
     name: $node_prefix öka
     id: ${node_name}_mixing_valve_status_increase
@@ -122,25 +160,26 @@ binary_sensor:
       } else {
         return false;
       }
-# Operational state
-  - platform: template
-    name: $node_prefix framledningsreglering aktiv
-    id: ${node_name}_supply_line_controller_mode
-    icon: mdi:speedometer-medium
-    lambda: |-
-      float temp_od = id(outdoor_temperature).state;
-      if (temp_od > 24.0) {
-        if (id(${node_name}_supply_line_controller).mode != 1) {
-          auto call = id(${node_name}_supply_line_controller).make_call();
-          call.set_mode("OFF");
-          call.perform();
-        }
-        return false;
-      } else {
-        if (id(${node_name}_supply_line_controller).mode == 0) {
-          auto call = id(${node_name}_supply_line_controller).make_call();
-          call.set_mode("HEAT_COOL");
-          call.perform();
-        }
-        return true;
-      }
+
+#  # Operational state
+#  - platform: template
+#    name: $node_prefix framledningsreglering aktiv
+#    id: ${node_name}_supply_line_controller_mode
+#    icon: mdi:speedometer-medium
+#    lambda: |-
+#      float temp_od = id(outdoor_temperature).state;
+#      if (temp_od > 24.0) {
+#        if (id(${node_name}_supply_line_controller).mode != 1) {
+#          auto call = id(${node_name}_supply_line_controller).make_call();
+#          call.set_mode("OFF");
+#          call.perform();
+#        }
+#        return false;
+#      } else {
+#        if (id(${node_name}_supply_line_controller).mode == 0) {
+#          auto call = id(${node_name}_supply_line_controller).make_call();
+#          call.set_mode("HEAT_COOL");
+#          call.perform();
+#        }
+#        return true;
+#      }

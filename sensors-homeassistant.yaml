@@ -1,22 +1,22 @@
 # Home Assistant configuration
 
-# Floor heating zone temperatures
+# Remote sensors 
 sensor:
-# Outdoor temperature
-#  - platform: homeassistant
-#    name: $node_prefix utetemperatur
-#    id: outdoor_temperature
-#    entity_id: sensor.utetemperatur
-#    filters:
-#      - heartbeat: 10s
-# Supply line temperature
+  # Outdoor temperature
+  - platform: homeassistant
+    name: $node_prefix utetemperatur
+    id: outdoor_temperature
+    entity_id: sensor.utetemperatur
+    filters:
+      - heartbeat: 10s
+#  # Supply line temperature
 #  - platform: homeassistant
 #    name: $node_prefix tillopp
 #    id: ${node_name}_supply_line_temperature
 #    entity_id: sensor.gvc_tillopp
 #    filters:
 #      - heartbeat: 10s
-# Mixing valve modulation period
+#  # Mixing valve modulation period
 #  - platform: homeassistant
 #    name: $node_prefix blandningsventil reglertid
 #    id: ${node_name}_mixing_valve_modulation_period
