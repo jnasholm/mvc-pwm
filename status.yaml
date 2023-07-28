@@ -30,40 +30,20 @@ light:
           update_interval: 4s
 
 # Controller operational state indication
-switch:
+binary_sensor:
   - platform: template
-    id: ${node_name}_controller_state_indication
+    id: ${node_name}_controller_state
     lambda: |-
-      if (id(${node_name}_controller_mode).state) {
+      if ( id(${node_name}_controller_mode).state ) {
         return true;
       } else {
         return false;
       }
-    turn_on_action:
+    on_press:
       - light.turn_on:
           id: ${node_name}_controller_status_indicator
           effect: auto_mode
-    turn_off_action:
+    on_release:
       - light.turn_on:
           id: ${node_name}_controller_status_indicator
           effect: manual_mode
-
-# Controller operational state
-#binary_sensor:
-#  - platform: template
-#    id: controller_state
-#    lambda: |-
-#      if ( (id(zone1_modulation_level).state == 0) && 
-#           (id(zone2_modulation_level).state == 0) && 
-#           (id(zone3_modulation_level).state == 0) && 
-#           (id(zone4_modulation_level).state == 0) ) {
-#        if ( id(controller_state_indication).state ) {
-#          id(controller_state_indication).turn_off();
-#        }
-#        return false;
-#      } else {
-#        if ( !id(controller_state_indication).state ) {
-#          id(controller_state_indication).turn_on();
-#        }
-#        return true;
-#      }

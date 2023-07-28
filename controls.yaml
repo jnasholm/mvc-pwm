@@ -1,93 +1,86 @@
 # Controls definitions
 
-# Global variables
-globals:
-  - id: ${node_name}_auto_mode
-    type: bool
-    restore_value: yes
-    initial_value: 'true'
-  - id: ${node_name}_manual_run
-    type: bool
-    restore_value: no
-    initial_value: 'false'
+# Default operational mode
+esphome:
+  on_boot:
+    priority: 200
+    then:
+      - switch.turn_on: ${node_name}_controller_mode
 
-# Operational mode switch
+# Operational switches
 switch:
+  # Operational mode
   - platform: template
     name: $node_prefix automatiskt driftläge
     id: ${node_name}_controller_mode
     icon: mdi:thermostat-auto
-    restore_mode: RESTORE_DEFAULT_ON
+    restore_mode: ALWAYS_ON
+    # Automatic mode
     turn_on_action:
-      - switch.template.publish:
-          id: ${node_name}_controller_mode
-          state: ON
-      - globals.set:
-          id: ${node_name}_auto_mode
-          value: 'true'
+      - lambda: |-
+          id(mixing_valve_manual_decrease).turn_off();
+          id(mixing_valve_manual_increase).turn_off();
+          id(${node_name}_controller_mode).publish_state(true);
+    # Manual mode
     turn_off_action:
-      - switch.template.publish:
-          id: ${node_name}_controller_mode
-          state: OFF
-      - globals.set:
-          id: ${node_name}_auto_mode
-          value: 'false'
+      - lambda: |-
+          id(decrease_relay).turn_off();
+          id(increase_relay).turn_off();
+          id(${node_name}_controller_mode).publish_state(false);
+
+  # Manual decrease
+  - platform: template
+    name: $node_prefix blandning minska
+    id: mixing_valve_manual_decrease
+    icon: mdi:arrow-down-drop-circle
+    turn_on_action:
+      - lambda: |-
+          if ( id(${node_name}_controller_mode).state == 0 ) {
+            if ( id(increase_relay).state )
+              id(increase_relay).turn_off();
+            id(decrease_relay).turn_on();
+            id(mixing_valve_manual_decrease).publish_state(true);
+          }
+    turn_off_action:
+      - lambda: |-
+          if ( id(${node_name}_controller_mode).state == 0 ) {
+            if ( id(decrease_relay).state )
+              id(decrease_relay).turn_off();
+            id(mixing_valve_manual_decrease).publish_state(false);
+          }
+  # Manual increase
+  - platform: template
+    name: $node_prefix blandning öka
+    id: mixing_valve_manual_increase
+    icon: mdi:arrow-up-drop-circle
+    turn_on_action:
+      - lambda: |-
+          if ( id(${node_name}_controller_mode).state == 0 ) {
+            if ( id(decrease_relay).state )
+              id(decrease_relay).turn_off();
+            id(increase_relay).turn_on();
+            id(mixing_valve_manual_increase).publish_state(true);
+          }
+    turn_off_action:
+      - lambda: |-
+          if ( id(${node_name}_controller_mode).state == 0 ) {
+            if ( id(increase_relay).state )
+              id(increase_relay).turn_off();
+            id(mixing_valve_manual_increase).publish_state(false);
+          }
 
 # Buttons
 button:
-  # Manual run stop
+  # Manual neutral
   - platform: template
     name: $node_prefix blandning neutral
-    id: ${node_name}_mixing_valve_manual_neutral
+    id: mixing_valve_manual_neutral
     icon: mdi:stop-circle
     on_press:
-      - globals.set:
-          id: ${node_name}_manual_run
-          value: 'false'
       - lambda: |-
-          if ( !(${node_name}_auto_mode) ) {
-            if ( id(${node_name}_relay_decrease).state )
-              id(${node_name}_relay_decrease).turn_off();
-            if ( id(${node_name}_relay_increase).state )
-              id(${node_name}_relay_increase).turn_off();
-          }
-  # Manual run increase
-  - platform: template
-    name: $node_prefix blandning öka
-    id: ${node_name}_mixing_valve_manual_increase
-    icon: mdi:arrow-up-drop-circle
-    on_press:
-      - globals.set:
-          id: ${node_name}_manual_run
-          value: 'true'
-      - lambda: |-
-          if ( !(${node_name}_auto_mode) ) {
-            if ( id(${node_name}_relay_decrease).state )
-              id(${node_name}_relay_decrease).turn_off();
-            while ( ${node_name}_manual_run && !(${node_name}_auto_mode) ) {
-              id(${node_name}_relay_increase).turn_on();
-              sleep(2);
-            }
-            if ( id(${node_name}_relay_increase).state )
-              id(${node_name}_relay_increase).turn_off();
-          }
-  # Manual run decrease
-  - platform: template
-    name: $node_prefix blandning minska
-    id: ${node_name}_mixing_valve_manual_decrease
-    icon: mdi:arrow-down-drop-circle
-    on_press:
-      - globals.set:
-          id: ${node_name}_manual_run
-          value: 'true'
-      - lambda: |-
-          if ( !(${node_name}_auto_mode) ) {
-            if ( id(${node_name}_relay_increase).state )
-              id(${node_name}_relay_increase).turn_off();
-            while ( ${node_name}_manual_run && !(${node_name}_auto_mode) ) {
-              id(${node_name}_relay_decrease).turn_on();
-              sleep(2);
-            }
-            if ( id(${node_name}_relay_decrease).state )
-              id(${node_name}_relay_decrease).turn_off();
+          if ( id(${node_name}_controller_mode).state == 0 ) {
+            if ( id(mixing_valve_manual_increase).state )
+              id(mixing_valve_manual_increase).turn_off();
+            if ( id(mixing_valve_manual_decrease).state )
+              id(mixing_valve_manual_decrease).turn_off();
           }

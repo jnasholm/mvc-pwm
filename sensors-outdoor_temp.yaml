@@ -8,12 +8,12 @@ dallas:
 
 # Outdoor temperature
 sensor:
-#  - platform: dallas
-#    name: $node_prefix utetemperatur digital
-#    id: outdoor_temperature_digital
-#    dallas_id: outdoor_temperature_bus
-#    address: 0x6C10000CA32B5B
-#    resolution: 12
+  - platform: dallas
+    name: $node_prefix utetemperatur digital
+    id: outdoor_temperature_digital
+    dallas_id: outdoor_temperature_bus
+    address: 0x6C00003CA32B7B
+    resolution: 12
 
 # Analog temperature sensor
 # NTC Beta factor calculated according to the equation below
