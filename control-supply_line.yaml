@@ -162,7 +162,7 @@ sensor:
   - platform: template
     name: $node_prefix tillopp beräknad
     id: ${node_name}_supply_line_target_temperature
-    icon: mdi:thermometer
+    icon: mdi:thermometer-auto
     unit_of_measurement: °C
     state_class: measurement
     accuracy_decimals: 2
