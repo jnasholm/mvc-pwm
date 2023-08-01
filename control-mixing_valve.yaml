@@ -12,6 +12,13 @@ switch:
     on_turn_on:
       - delay: 1s
       - switch.turn_off: decrease_relay
+    on_turn_off:
+      - if:
+          condition:
+            switch.is_on: mixing_valve_manual_decrease
+          then:
+            - delay: 1s
+            - switch.turn_on: decrease_relay
   # Relay actuator increase
   - platform: gpio
     id: increase_relay
@@ -22,6 +29,13 @@ switch:
     on_turn_on:
       - delay: 1s
       - switch.turn_off: increase_relay
+    on_turn_off:
+      - if:
+          condition:
+            switch.is_on: mixing_valve_manual_increase
+          then:
+            - delay: 1s
+            - switch.turn_on: increase_relay
 
 # Output configuration
 output:
