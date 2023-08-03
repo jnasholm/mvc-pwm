@@ -10,6 +10,7 @@ switch:
       number: GPIO25
       inverted: true
     on_turn_on:
+      - number.decrement: ${node_name}_mixing_valve_position_counter
       - delay: 1s
       - switch.turn_off: decrease_relay
     on_turn_off:
@@ -27,6 +28,7 @@ switch:
       number: GPIO26
       inverted: true
     on_turn_on:
+      - number.increment: ${node_name}_mixing_valve_position_counter
       - delay: 1s
       - switch.turn_off: increase_relay
     on_turn_off:
@@ -182,3 +184,16 @@ binary_sensor:
         }
       }
       return false;
+
+# Mixing valve actuator position counter
+number:
+  - platform: template
+    name: $node_prefix läge
+    id: ${node_name}_mixing_valve_position_counter
+    icon: mdi:knob
+    min_value: -1000
+    max_value: 1000
+    step: 1
+    initial_value: 0
+    optimistic: true
+    restore_value: true
