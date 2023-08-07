@@ -178,7 +178,12 @@ sensor:
             id: ${node_name}_supply_line_controller
             target_temperature: !lambda return x;
     lambda: |-
+      /* Remote outdoor temperature sensor (Home Assistant) */
       float temp_od = id(outdoor_temperature).state;
+      /* Digital outdoor temperature sensor (DS18B20) */
+      //float temp_od = id(outdoor_temperature_digital).state;
+      /* Analog outdoor temperature sensor (NTC) */
+      //float temp_od = id(outdoor_temperature_analog).state;
       float temp_sl;
       float od_1, od_2, sl_1, sl_2;
       /* Linear interpolation points (p1,p2) */
