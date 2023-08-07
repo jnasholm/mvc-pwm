@@ -38,6 +38,8 @@ switch:
           if ( id(${node_name}_controller_mode).state == 0 ) {
             if ( id(increase_relay).state )
               id(increase_relay).turn_off();
+            if ( id(mixing_valve_manual_increase).state )
+              id(mixing_valve_manual_increase).turn_off();
             id(decrease_relay).turn_on();
             id(mixing_valve_manual_decrease).publish_state(true);
           }
@@ -58,6 +60,8 @@ switch:
           if ( id(${node_name}_controller_mode).state == 0 ) {
             if ( id(decrease_relay).state )
               id(decrease_relay).turn_off();
+            if ( id(mixing_valve_manual_decrease).state )
+              id(mixing_valve_manual_decrease).turn_off();
             id(increase_relay).turn_on();
             id(mixing_valve_manual_increase).publish_state(true);
           }

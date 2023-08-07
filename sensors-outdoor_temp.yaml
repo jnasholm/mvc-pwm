@@ -12,7 +12,7 @@ sensor:
     name: $node_prefix utetemperatur digital
     id: outdoor_temperature_digital
     dallas_id: outdoor_temperature_bus
-    address: 0x6C00003CA32B7B
+    address: 0x2c0000081d200d28
     resolution: 12
 
 # Analog temperature sensor
@@ -20,35 +20,40 @@ sensor:
 # https://www.ametherm.com/thermistor/ntc-thermistor-beta
   - platform: ntc
     name: $node_prefix utetemperatur analog
-    sensor: outdoor_temperature_analog
-    calibration:
-      b_constant: 3919
-      reference_temperature: 5°C
-      reference_resistance: 5.66kOhm
-# Calibration points for UVEAB EVR-U according to documentation
-#    calibration:
-#      - 43.03kOhm -> -30°C
-#      - 31.09kOhm -> -25°C
-#      - 22.76kOhm -> -20°C
-#      - 16.86kOhm -> -15°C
-#      - 12.63kOhm -> -10°C
-#      - 9.57kOhm -> -5°C
-#      - 7.32kOhm -> 0°C
-#      - 5.66kOhm -> 5°C
-#      - 4.41kOhm -> 10°C
-#      - 3.47kOhm -> 15°C
-#      - 2.75kOhm -> 20°C
-#      - 2.20kOhm -> 25°C
-  - platform: resistance
-    name: $node_prefix utetemperatur analog sensor
     id: outdoor_temperature_analog
     sensor: outdoor_temperature_analog_sensor
-    configuration: DOWNSTREAM
-    resistor: 1.0kOhm
-  - platform: adc
+#    calibration:
+#      b_constant: 3919
+#      reference_temperature: 5°C
+#      reference_resistance: 5.66kOhm
+    # Calibration points for UVEAB EVR-U according to documentation.
+    calibration:
+    # - 43.03kOhm -> -30°C
+    # - 31.09kOhm -> -25°C
+    # - 22.76kOhm -> -20°C
+    # - 16.86kOhm -> -15°C
+      - 12.63kOhm -> -10°C
+    # - 9.57kOhm -> -5°C
+    # - 7.32kOhm -> 0°C
+      - 5.66kOhm -> 5°C
+    # - 4.41kOhm -> 10°C
+    # - 3.47kOhm -> 15°C
+      - 2.75kOhm -> 20°C
+    # - 2.20kOhm -> 25°C
+  # Resistance calculation
+  - platform: resistance
+    name: $node_prefix utetemperatur analog sensor
     id: outdoor_temperature_analog_sensor
+    icon: mdi:omega
+    sensor: outdoor_temperature_analog_measure
+    configuration: DOWNSTREAM
+    resistor: 10kOhm
+  # Voltage measurement (range 0.15-2.45V)
+  - platform: adc
+    id: outdoor_temperature_analog_measure
     pin: GPIO34
     update_interval: never
+    attenuation: 11db
 
 # Analog temperature sensor power source
 switch:
@@ -58,8 +63,10 @@ switch:
 
 # Analog temperature sensor update interval
 interval:
-  - interval: 60s
+  - interval: 30s
     then:
       - switch.turn_on: outdoor_analog_sensor_power
-      - component.update: outdoor_temperature_analog_sensor
+      - delay: 2s
+      - component.update: outdoor_temperature_analog_measure
+      - delay: 2s
       - switch.turn_off: outdoor_analog_sensor_power
