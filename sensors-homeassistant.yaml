@@ -1,14 +1,14 @@
 # Home Assistant configuration
 
 # Remote sensors 
-sensor:
-  # Outdoor temperature
-  - platform: homeassistant
-    name: $node_prefix utetemperatur
-    id: outdoor_temperature
-    entity_id: sensor.utetemperatur
-    filters:
-      - heartbeat: 10s
+#sensor:
+#  # Outdoor temperature
+#  - platform: homeassistant
+#    name: $node_prefix utetemperatur
+#    id: outdoor_temperature
+#    entity_id: sensor.utetemperatur
+#    filters:
+#      - heartbeat: 10s
 #  # Supply line temperature
 #  - platform: homeassistant
 #    name: $node_prefix tillopp

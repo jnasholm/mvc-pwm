@@ -99,8 +99,8 @@ climate:
       output_averaging_samples: 3
       derivative_averaging_samples: 3
     deadband_parameters:
-      threshold_high: 0.4°C
-      threshold_low: -0.4°C
+      threshold_high: 0.2°C
+      threshold_low: -0.2°C
     visual:
       min_temperature: 20.0°C
       max_temperature: 35.0°C
