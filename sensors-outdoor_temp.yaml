@@ -4,7 +4,7 @@
 dallas:
   - pin: GPIO14
     id: outdoor_temperature_bus
-    update_interval: 10s
+    update_interval: 20s
 
 # Sensor configurations
 sensor:
@@ -16,7 +16,7 @@ sensor:
     unit_of_measurement: °C
     state_class: measurement
     accuracy_decimals: 2
-    update_interval: 10s
+    update_interval: 20s
     lambda: return (id(outdoor_temperature_remote).state);
     #lambda: return (id(outdoor_temperature_digital).state);
     #lambda: return (id(outdoor_temperature_analog).state);
@@ -27,7 +27,7 @@ sensor:
     accuracy_decimals: 2
     entity_id: sensor.utetemperatur
     filters:
-      - heartbeat: 10s
+      - heartbeat: 20s
 
   # Digital outdoor temperature sensor (DS18B20)
   - platform: dallas
