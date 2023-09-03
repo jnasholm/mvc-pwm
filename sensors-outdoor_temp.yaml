@@ -1,10 +1,10 @@
 # Outdoor temperature sensor configuration
 
 # Digital outdoor temperature sensor bus configuration
-dallas:
-  - pin: GPIO14
-    id: outdoor_temperature_bus
-    update_interval: 20s
+#dallas:
+#  - pin: GPIO14
+#    id: outdoor_temperature_bus
+#    update_interval: 20s
 
 # Sensor configurations
 sensor:
@@ -29,14 +29,14 @@ sensor:
     filters:
       - heartbeat: 20s
 
-  # Digital outdoor temperature sensor (DS18B20)
-  - platform: dallas
-    name: $node_prefix utetemperatur digital
-    id: outdoor_temperature_digital
-    accuracy_decimals: 2
-    dallas_id: outdoor_temperature_bus
-    address: 0x2c0000081d200d28
-    resolution: 12
+#  # Digital outdoor temperature sensor (DS18B20)
+#  - platform: dallas
+#    name: $node_prefix utetemperatur digital
+#    id: outdoor_temperature_digital
+#    accuracy_decimals: 2
+#    dallas_id: outdoor_temperature_bus
+#    address: 0x2c0000081d200d28
+#    resolution: 12
 
   # Analog outdoor temperature sensor (NTC)
   # NTC Beta factor calculated according to the equation below
@@ -65,6 +65,11 @@ sensor:
     # - 3.47kOhm -> 15°C
       - 2.75kOhm -> 20°C
     # - 2.20kOhm -> 25°C
+    filters:
+      - median:
+          window_size: 15
+          send_every: 3
+          send_first_at: 1
   # Resistance calculation
   - platform: resistance
     name: $node_prefix utetemperatur analog sensor
@@ -79,11 +84,6 @@ sensor:
     pin: GPIO34
     update_interval: never
     attenuation: 11db
-    filters:
-      - median:
-          window_size: 5
-          send_every: 3
-          send_first_at: 1
 
 # Analog temperature sensor power source configuration
 switch:
