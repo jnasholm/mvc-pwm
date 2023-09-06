@@ -43,7 +43,7 @@ sensor:
     lambda: return (id(${node_name}_supply_line_temperature).state);
     filters:
       - median:
-          window_size: 31
+          window_size: 19
           send_every: 3
           send_first_at: 1
 
