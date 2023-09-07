@@ -67,7 +67,7 @@ sensor:
     # - 2.20kOhm -> 25°C
     filters:
       - median:
-          window_size: 15
+          window_size: 5
           send_every: 3
           send_first_at: 1
   # Resistance calculation
@@ -85,10 +85,14 @@ sensor:
     update_interval: never
     attenuation: 11db
     filters:
-      - median:
-          window_size: 9
+      - exponential_moving_average:
+          alpha: 0.1
           send_every: 3
           send_first_at: 1
+#      - median:
+#          window_size: 9
+#          send_every: 3
+#          send_first_at: 1
 
 # Analog temperature sensor power source configuration
 switch:
