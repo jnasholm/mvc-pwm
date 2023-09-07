@@ -29,7 +29,7 @@ sensor:
     name: $node_prefix blandning
     id: ${node_name}_mixing_line_temperature
     dallas_id: line_temperature_bus
-    address: 0xA300000CA437C528
+    address: 0x3400000e6129a928
     resolution: 12
     accuracy_decimals: 2
   # Supply line temperature median
