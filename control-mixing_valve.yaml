@@ -14,7 +14,9 @@ switch:
           condition:
             switch.is_on: decrease_relay
           then:
-            - number.decrement: ${node_name}_mixing_valve_position_counter
+            - number.decrement:
+                id: ${node_name}_mixing_valve_position_counter
+                cycle: false
             - delay: 1s
   # Relay actuator increase
   - platform: gpio
@@ -28,7 +30,9 @@ switch:
           condition:
             switch.is_on: increase_relay
           then:
-            - number.increment: ${node_name}_mixing_valve_position_counter
+            - number.increment:
+                id: ${node_name}_mixing_valve_position_counter
+                cycle: false
             - delay: 1s
 
 # Output configuration
@@ -188,7 +192,7 @@ number:
     name: $node_prefix läge
     id: ${node_name}_mixing_valve_position_counter
     icon: mdi:knob
-    min_value: -1200
+    min_value: 0
     max_value: 1200
     step: 1
     initial_value: 0
