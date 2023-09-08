@@ -53,9 +53,6 @@ output:
       - lambda: |-
           if ( id(${node_name}_controller_mode).state )
             id(decrease_relay).turn_off();
-#    pin:
-#      number: GPIO25
-#      inverted: true
   # Mixing valve actuator increase
   - platform: slow_pwm
     id: ${node_name}_mixing_valve_actuator_increase
@@ -71,9 +68,6 @@ output:
       - lambda: |-
           if ( id(${node_name}_controller_mode).state )
             id(increase_relay).turn_off();
-#    pin:
-#      number: GPIO26
-#      inverted: true
 
 # Thermostat configuration
 
