@@ -43,13 +43,9 @@ sensor:
     lambda: return (id(${node_name}_supply_line_temperature).state);
     filters:
       - exponential_moving_average:
-          alpha: 0.1
+          alpha: 0.06
           send_every: 3
           send_first_at: 1
-#      - median:
-#          window_size: 19
-#          send_every: 3
-#          send_first_at: 1
 
 ## Heat source supply and return lines
 #  - platform: dallas

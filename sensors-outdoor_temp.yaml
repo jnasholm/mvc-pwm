@@ -86,13 +86,9 @@ sensor:
     attenuation: 11db
     filters:
       - exponential_moving_average:
-          alpha: 0.1
+          alpha: 0.06
           send_every: 3
           send_first_at: 1
-#      - median:
-#          window_size: 9
-#          send_every: 3
-#          send_first_at: 1
 
 # Analog temperature sensor power source configuration
 switch:
