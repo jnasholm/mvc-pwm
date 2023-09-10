@@ -21,12 +21,14 @@ switch:
           id(mixing_valve_manual_decrease).turn_off();
           id(mixing_valve_manual_increase).turn_off();
           id(${node_name}_controller_mode).publish_state(true);
+          id(${node_name}_outdoor_temp_compensated_mode).publish_state(true);
     # Manual mode
     turn_off_action:
       - lambda: |-
           id(decrease_relay).turn_off();
           id(increase_relay).turn_off();
           id(${node_name}_controller_mode).publish_state(false);
+          id(${node_name}_outdoor_temp_compensated_mode).publish_state(false);
 
   # Manual decrease
   - platform: template

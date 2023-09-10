@@ -36,14 +36,14 @@ switch:
             - delay: 1s
 
 # Output configuration
-# Calculate min_power to be a 1s pulse for ESBE valve actuators (1/period)
+# Calculate max_power to be a 4s pulse for ESBE valve actuators (4 x 1/period)
 output:
   # Mixing valve actuator decrease
   - platform: slow_pwm
     id: ${node_name}_mixing_valve_actuator_decrease
     period: 20s
-    max_power: 0.4
-    min_power: 0.05
+    max_power: 0.2
+    min_power: 0.0
     zero_means_zero: true
     turn_on_action:
       - lambda: |-
@@ -57,8 +57,8 @@ output:
   - platform: slow_pwm
     id: ${node_name}_mixing_valve_actuator_increase
     period: 20s
-    max_power: 0.4
-    min_power: 0.05
+    max_power: 0.2
+    min_power: 0.0
     zero_means_zero: true
     turn_on_action:
       - lambda: |-
@@ -95,10 +95,14 @@ climate:
       ki: 0.0041667
       kd: 6.0
       output_averaging_samples: 3
-      derivative_averaging_samples: 3
-    deadband_parameters:
-      threshold_high: 0.2°C
-      threshold_low: -0.2°C
+      derivative_averaging_samples: 5
+#    deadband_parameters:
+#      threshold_high: 0.4°C
+#      threshold_low: -0.4°C
+#      kp_multiplier: 0.25
+#      ki_multiplier: 0.25
+#      kd_multiplier: 0.05
+#      deadband_output_averaging_samples: 9
     visual:
       min_temperature: 20.0°C
       max_temperature: 35.0°C
@@ -132,13 +136,11 @@ binary_sensor:
       - delayed_on_off: 400ms
     lambda: |-
       if ( id(${node_name}_controller_mode).state ) {
-        if ( id(${node_name}_supply_line_modulation_level_decrease).state > 0.0 ) {
+        if ( id(${node_name}_supply_line_modulation_level_decrease).state > 0.0 )
           return true;
-        }
       } else {
-        if ( id(mixing_valve_manual_decrease).state ) {
+        if ( id(mixing_valve_manual_decrease).state )
           return true;
-        }
       }
       return false;
   # Neutral
@@ -150,15 +152,13 @@ binary_sensor:
       - delayed_on_off: 400ms
     lambda: |-
       if ( id(${node_name}_controller_mode).state ) {
-        if ( (id(${node_name}_supply_line_modulation_level_decrease).state <= 0.08) && 
-             (id(${node_name}_supply_line_modulation_level_increase).state <= 0.08) ) {
+        if ( (id(${node_name}_supply_line_modulation_level_decrease).state < 0.1) && 
+             (id(${node_name}_supply_line_modulation_level_increase).state < 0.1) )
           return true;
-        }
       } else {
         if ( (id(mixing_valve_manual_decrease).state == 0) &&
-             (id(mixing_valve_manual_increase).state == 0) ) {
+             (id(mixing_valve_manual_increase).state == 0) )
           return true;
-        }
       }
       return false;
   # Increase
@@ -170,13 +170,11 @@ binary_sensor:
       - delayed_on_off: 400ms
     lambda: |-
       if ( id(${node_name}_controller_mode).state ) {
-        if ( id(${node_name}_supply_line_modulation_level_increase).state > 0.0 ) {
+        if ( id(${node_name}_supply_line_modulation_level_increase).state > 0.0 )
           return true;
-        }
       } else {
-        if ( id(mixing_valve_manual_increase).state ) {
+        if ( id(mixing_valve_manual_increase).state )
           return true;
-        }
       }
       return false;
 
@@ -187,7 +185,7 @@ number:
     id: ${node_name}_mixing_valve_position_counter
     icon: mdi:knob
     min_value: 0
-    max_value: 1200
+    max_value: 120
     step: 1
     initial_value: 0
     optimistic: true
