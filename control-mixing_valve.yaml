@@ -10,14 +10,8 @@ switch:
       number: GPIO25
       inverted: true
     on_turn_on:
-      - while:
-          condition:
-            switch.is_on: decrease_relay
-          then:
-            - number.decrement:
-                id: ${node_name}_mixing_valve_position_counter
-                cycle: false
-            - delay: 1s
+      - delay: 400ms
+      - switch.turn_off: decrease_relay
   # Relay actuator increase
   - platform: gpio
     id: increase_relay
@@ -26,104 +20,121 @@ switch:
       number: GPIO26
       inverted: true
     on_turn_on:
+      - delay: 400ms
+      - switch.turn_off: increase_relay
+
+  # Mixing valve actuator decrease
+  - platform: template
+    id: ${node_name}_mixing_valve_actuator_decrease
+    optimistic: true
+    on_turn_on:
       - while:
           condition:
-            switch.is_on: increase_relay
+            switch.is_on: ${node_name}_mixing_valve_actuator_decrease
           then:
+            - switch.turn_on: decrease_relay
+            - number.decrement:
+                id: ${node_name}_mixing_valve_position_counter
+                cycle: false
+            - if:
+                condition:
+                  switch.is_on: ${node_name}_controller_mode
+                then:
+                  - delay: 4s
+                else:
+                  - delay: 1s
+  # Mixing valve actuator increase
+  - platform: template
+    id: ${node_name}_mixing_valve_actuator_increase
+    optimistic: true
+    on_turn_on:
+      - while:
+          condition:
+            switch.is_on: ${node_name}_mixing_valve_actuator_increase
+          then:
+            - switch.turn_on: increase_relay
             - number.increment:
                 id: ${node_name}_mixing_valve_position_counter
                 cycle: false
-            - delay: 1s
-
-# Output configuration
-# Calculate max_power to be a 4s pulse for ESBE valve actuators (4 x 1/period)
-output:
-  # Mixing valve actuator decrease
-  - platform: slow_pwm
-    id: ${node_name}_mixing_valve_actuator_decrease
-    period: 20s
-    max_power: 0.2
-    min_power: 0.02
-    zero_means_zero: true
-    turn_on_action:
-      - lambda: |-
-          if ( id(${node_name}_controller_mode).state )
-            id(decrease_relay).turn_on();
-    turn_off_action:
-      - lambda: |-
-          if ( id(${node_name}_controller_mode).state )
-            id(decrease_relay).turn_off();
-  # Mixing valve actuator increase
-  - platform: slow_pwm
-    id: ${node_name}_mixing_valve_actuator_increase
-    period: 20s
-    max_power: 0.2
-    min_power: 0.02
-    zero_means_zero: true
-    turn_on_action:
-      - lambda: |-
-          if ( id(${node_name}_controller_mode).state )
-            id(increase_relay).turn_on();
-    turn_off_action:
-      - lambda: |-
-          if ( id(${node_name}_controller_mode).state )
-            id(increase_relay).turn_off();
-
-# Thermostat configuration
-
-# Supply line temperature controller
-#   Sampling time, Ts:      10 s (update interval of temperature sensor)
-#   Critical gain, Kc:       2.0 (proportional constant causing oscillation)
-#   Critical period, Pc:   480 s (cycle time at oscillating condition)
-# Calculated parameters  
-#   Integral time, Ti:     240 s (0.50 x Pc)
-#   Derivative time, Td:    60 s (0.25 x Ti)
-# Controller parameters
-#   Proportional constant, kp:   1.2       (0.60 x Kc)
-#   Integral constant, ki:       0.0041667 (1/Ti)
-#   Derivative constant, kd:     6.0       (Td/Ts)
-climate:
-  - platform: pid
-    name: $node_prefix framledningsreglering
-    id: ${node_name}_supply_line_controller
-    sensor: ${node_name}_supply_line_temperature
-    default_target_temperature: 21.0°C
-    heat_output: ${node_name}_mixing_valve_actuator_increase
-    cool_output: ${node_name}_mixing_valve_actuator_decrease
-    control_parameters:
-      kp: 1.2
-      ki: 0.0041667
-      kd: 6.0
-      output_averaging_samples: 3
-      derivative_averaging_samples: 5
-    deadband_parameters:
-      threshold_high: 0.2°C
-      threshold_low: -0.2°C
-      kp_multiplier: 0.0
-      ki_multiplier: 0.05
-      kd_multiplier: 0.0
-#      deadband_output_averaging_samples: 9
-    visual:
-      min_temperature: 20.0°C
-      max_temperature: 35.0°C
-      temperature_step: 0.1°C
+            - if:
+                condition:
+                  switch.is_on: ${node_name}_controller_mode
+                then:
+                  - delay: 4s
+                else:
+                  - delay: 1s
 
 # Supply line modulation level sensors
 sensor:
   # Supply line modulation level decrease
-  - platform: pid
+  - platform: template
     name: $node_prefix reglernivå minska
     id: ${node_name}_supply_line_modulation_level_decrease
     icon: mdi:chart-bell-curve-cumulative
-    climate_id: ${node_name}_supply_line_controller
-    type: COOL
+    accuracy_decimals: 1
+    lambda: |-
+       return 0.0;
+
   # Supply line modulation level increase
-  - platform: pid
+  - platform: template
     name: $node_prefix reglernivå öka
     id: ${node_name}_supply_line_modulation_level_increase
     icon: mdi:chart-bell-curve-cumulative
-    climate_id: ${node_name}_supply_line_controller
-    type: HEAT
+    accuracy_decimals: 1
+    lambda: |-
+       return 0.0;
+
+# Thermostat configuration
+
+# Supply line temperature controller
+climate:
+  - platform: thermostat
+    name: $node_prefix framledningsreglering
+    id: ${node_name}_supply_line_controller
+    sensor: ${node_name}_supply_line_temperature
+    min_cooling_off_time: 1s
+    min_cooling_run_time: 1s
+    min_heating_off_time: 1s
+    min_heating_run_time: 1s
+    min_idle_time: 1s
+    set_point_minimum_differential: 0.4°C
+    cool_deadband: 0.2°C
+    cool_overrun:  0.2°C
+    heat_deadband: 0.2°C
+    heat_overrun:  0.2°C
+    cool_action:
+      - if:
+          condition:
+            - switch.is_on: ${node_name}_controller_mode
+          then:
+            - switch.turn_off: ${node_name}_mixing_valve_actuator_increase
+            - switch.turn_on:  ${node_name}_mixing_valve_actuator_decrease
+    heat_action:
+      - if:
+          condition:
+            - switch.is_on: ${node_name}_controller_mode
+          then:
+            - switch.turn_off: ${node_name}_mixing_valve_actuator_decrease
+            - switch.turn_on:  ${node_name}_mixing_valve_actuator_increase
+    idle_action:
+      - if:
+          condition:
+            - switch.is_on: ${node_name}_controller_mode
+          then:
+            - switch.turn_off: ${node_name}_mixing_valve_actuator_decrease
+            - switch.turn_off: ${node_name}_mixing_valve_actuator_increase
+    default_preset: Home
+    preset:
+      - name: Home
+        default_target_temperature_low:  21.4°C
+        default_target_temperature_high: 21.0°C
+      - name: Away
+        default_target_temperature_low:  18.4°C
+        default_target_temperature_high: 18.0°C
+    visual:
+      min_temperature: 15.0°C
+      max_temperature: 35.0°C
+      temperature_step: 0.1°C
 
 # Mixing valve actuator operational indicators
 binary_sensor:
@@ -136,7 +147,7 @@ binary_sensor:
       - delayed_on_off: 400ms
     lambda: |-
       if ( id(${node_name}_controller_mode).state ) {
-        if ( id(${node_name}_supply_line_modulation_level_decrease).state > 0.0 )
+        if ( id(${node_name}_mixing_valve_actuator_decrease).state )
           return true;
       } else {
         if ( id(mixing_valve_manual_decrease).state )
@@ -152,8 +163,8 @@ binary_sensor:
       - delayed_on_off: 400ms
     lambda: |-
       if ( id(${node_name}_controller_mode).state ) {
-        if ( (id(${node_name}_supply_line_modulation_level_decrease).state < 0.1) && 
-             (id(${node_name}_supply_line_modulation_level_increase).state < 0.1) )
+        if ( (id(${node_name}_mixing_valve_actuator_decrease).state == 0) && 
+             (id(${node_name}_mixing_valve_actuator_increase).state == 0) )
           return true;
       } else {
         if ( (id(mixing_valve_manual_decrease).state == 0) &&
@@ -170,7 +181,7 @@ binary_sensor:
       - delayed_on_off: 400ms
     lambda: |-
       if ( id(${node_name}_controller_mode).state ) {
-        if ( id(${node_name}_supply_line_modulation_level_increase).state > 0.0 )
+        if ( id(${node_name}_mixing_valve_actuator_increase).state )
           return true;
       } else {
         if ( id(mixing_valve_manual_increase).state )
@@ -185,7 +196,7 @@ number:
     id: ${node_name}_mixing_valve_position_counter
     icon: mdi:knob
     min_value: 0
-    max_value: 120
+    max_value: 240
     step: 1
     initial_value: 0
     optimistic: true

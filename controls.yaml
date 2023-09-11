@@ -22,13 +22,19 @@ switch:
           id(mixing_valve_manual_increase).turn_off();
           id(${node_name}_controller_mode).publish_state(true);
           id(${node_name}_outdoor_temp_compensated_mode).publish_state(true);
+      - climate.control:
+          id: ${node_name}_supply_line_controller
+          mode: HEAT_COOL
     # Manual mode
     turn_off_action:
       - lambda: |-
-          id(decrease_relay).turn_off();
-          id(increase_relay).turn_off();
+          id(${node_name}_mixing_valve_actuator_decrease).turn_off();
+          id(${node_name}_mixing_valve_actuator_increase).turn_off();
           id(${node_name}_controller_mode).publish_state(false);
           id(${node_name}_outdoor_temp_compensated_mode).publish_state(false);
+      - climate.control:
+          id: ${node_name}_supply_line_controller
+          mode: "OFF"
 
   # Manual decrease
   - platform: template
@@ -38,18 +44,17 @@ switch:
     turn_on_action:
       - lambda: |-
           if ( id(${node_name}_controller_mode).state == 0 ) {
-            if ( id(increase_relay).state )
-              id(increase_relay).turn_off();
+            if ( id(${node_name}_mixing_valve_actuator_increase).state )
+              id(${node_name}_mixing_valve_actuator_increase).turn_off();
             if ( id(mixing_valve_manual_increase).state )
               id(mixing_valve_manual_increase).turn_off();
-            id(decrease_relay).turn_on();
+            id(${node_name}_mixing_valve_actuator_decrease).turn_on();
             id(mixing_valve_manual_decrease).publish_state(true);
           }
     turn_off_action:
       - lambda: |-
           if ( id(${node_name}_controller_mode).state == 0 ) {
-            if ( id(decrease_relay).state )
-              id(decrease_relay).turn_off();
+            id(${node_name}_mixing_valve_actuator_decrease).turn_off();
             id(mixing_valve_manual_decrease).publish_state(false);
           }
   # Manual increase
@@ -60,18 +65,17 @@ switch:
     turn_on_action:
       - lambda: |-
           if ( id(${node_name}_controller_mode).state == 0 ) {
-            if ( id(decrease_relay).state )
-              id(decrease_relay).turn_off();
+            if ( id(${node_name}_mixing_valve_actuator_decrease).state )
+              id(${node_name}_mixing_valve_actuator_decrease).turn_off();
             if ( id(mixing_valve_manual_decrease).state )
               id(mixing_valve_manual_decrease).turn_off();
-            id(increase_relay).turn_on();
+            id(${node_name}_mixing_valve_actuator_increase).turn_on();
             id(mixing_valve_manual_increase).publish_state(true);
           }
     turn_off_action:
       - lambda: |-
           if ( id(${node_name}_controller_mode).state == 0 ) {
-            if ( id(increase_relay).state )
-              id(increase_relay).turn_off();
+            id(${node_name}_mixing_valve_actuator_increase).turn_off();
             id(mixing_valve_manual_increase).publish_state(false);
           }
 
