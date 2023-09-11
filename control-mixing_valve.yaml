@@ -97,11 +97,11 @@ climate:
       output_averaging_samples: 3
       derivative_averaging_samples: 5
 #    deadband_parameters:
-#      threshold_high: 0.4°C
-#      threshold_low: -0.4°C
-#      kp_multiplier: 0.25
-#      ki_multiplier: 0.25
-#      kd_multiplier: 0.05
+#      threshold_high: 0.2°C
+#      threshold_low: -0.2°C
+#      kp_multiplier: 0.0
+#      ki_multiplier: 0.05
+#      kd_multiplier: 0.0
 #      deadband_output_averaging_samples: 9
     visual:
       min_temperature: 20.0°C
