@@ -43,7 +43,7 @@ output:
     id: ${node_name}_mixing_valve_actuator_decrease
     period: 20s
     max_power: 0.2
-    min_power: 0.0
+    min_power: 0.02
     zero_means_zero: true
     turn_on_action:
       - lambda: |-
@@ -58,7 +58,7 @@ output:
     id: ${node_name}_mixing_valve_actuator_increase
     period: 20s
     max_power: 0.2
-    min_power: 0.0
+    min_power: 0.02
     zero_means_zero: true
     turn_on_action:
       - lambda: |-
@@ -96,12 +96,12 @@ climate:
       kd: 6.0
       output_averaging_samples: 3
       derivative_averaging_samples: 5
-#    deadband_parameters:
-#      threshold_high: 0.2°C
-#      threshold_low: -0.2°C
-#      kp_multiplier: 0.0
-#      ki_multiplier: 0.05
-#      kd_multiplier: 0.0
+    deadband_parameters:
+      threshold_high: 0.2°C
+      threshold_low: -0.2°C
+      kp_multiplier: 0.0
+      ki_multiplier: 0.05
+      kd_multiplier: 0.0
 #      deadband_output_averaging_samples: 9
     visual:
       min_temperature: 20.0°C
