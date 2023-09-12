@@ -24,7 +24,7 @@ switch:
           id(${node_name}_outdoor_temp_compensated_mode).publish_state(true);
       - climate.control:
           id: ${node_name}_supply_line_controller
-          mode: HEAT_COOL
+          mode: "HEAT_COOL"
     # Manual mode
     turn_off_action:
       - lambda: |-

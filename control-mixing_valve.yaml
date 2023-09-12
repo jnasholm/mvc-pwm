@@ -73,8 +73,21 @@ sensor:
     icon: mdi:chart-bell-curve-cumulative
     accuracy_decimals: 1
     lambda: |-
-       return 0.0;
-
+      float mod_level = 0.0;
+      if ( id(${node_name}_controller_mode).state ) {
+        float temp_sp = id(${node_name}_supply_line_target_temperature).state;
+        float temp_cu = id(${node_name}_supply_line_temperature).state;
+        float temp_diff =  temp_cu - temp_sp;
+        if ( temp_diff > 0.0 ) {
+          if ( temp_diff < 0.4 )
+            mod_level = 10.0;
+          if ( temp_diff < 1.2 )
+            mod_level = 40.0;
+          else
+            mod_level = 100.0;
+        }
+      }
+      return mod_level;
   # Supply line modulation level increase
   - platform: template
     name: $node_prefix reglernivå öka
@@ -82,7 +95,21 @@ sensor:
     icon: mdi:chart-bell-curve-cumulative
     accuracy_decimals: 1
     lambda: |-
-       return 0.0;
+      float mod_level = 0.0;
+      if ( id(${node_name}_controller_mode).state ) {
+        float temp_sp = id(${node_name}_supply_line_target_temperature).state;
+        float temp_cu = id(${node_name}_supply_line_temperature).state;
+        float temp_diff =  temp_sp - temp_cu;
+        if ( temp_diff > 0.0 ) {
+          if ( temp_diff < 0.4 )
+            mod_level = 10.0;
+          if ( temp_diff < 1.2 )
+            mod_level = 40.0;
+          else
+            mod_level = 100.0;
+        }
+      }
+      return mod_level;
 
 # Thermostat configuration
 
@@ -92,16 +119,12 @@ climate:
     name: $node_prefix framledningsreglering
     id: ${node_name}_supply_line_controller
     sensor: ${node_name}_supply_line_temperature
+    set_point_minimum_differential: 0.2°C
+    # Decrease mixing ratio
     min_cooling_off_time: 1s
     min_cooling_run_time: 1s
-    min_heating_off_time: 1s
-    min_heating_run_time: 1s
-    min_idle_time: 1s
-    set_point_minimum_differential: 0.4°C
     cool_deadband: 0.2°C
     cool_overrun:  0.2°C
-    heat_deadband: 0.2°C
-    heat_overrun:  0.2°C
     cool_action:
       - if:
           condition:
@@ -109,6 +132,11 @@ climate:
           then:
             - switch.turn_off: ${node_name}_mixing_valve_actuator_increase
             - switch.turn_on:  ${node_name}_mixing_valve_actuator_decrease
+    # Increase mixing ratio
+    min_heating_off_time: 1s
+    min_heating_run_time: 1s
+    heat_deadband: 0.2°C
+    heat_overrun:  0.2°C
     heat_action:
       - if:
           condition:
@@ -116,6 +144,8 @@ climate:
           then:
             - switch.turn_off: ${node_name}_mixing_valve_actuator_decrease
             - switch.turn_on:  ${node_name}_mixing_valve_actuator_increase
+    # Hold mixing ratio
+    min_idle_time: 1s
     idle_action:
       - if:
           condition:
@@ -123,6 +153,7 @@ climate:
           then:
             - switch.turn_off: ${node_name}_mixing_valve_actuator_decrease
             - switch.turn_off: ${node_name}_mixing_valve_actuator_increase
+    # Temperature presets and thermostat settings
     default_preset: Home
     preset:
       - name: Home
@@ -138,7 +169,7 @@ climate:
 
 # Mixing valve actuator operational indicators
 binary_sensor:
-  # Decrease
+  # Decrease indicator
   - platform: template
     name: $node_prefix minska
     id: ${node_name}_mixing_valve_status_decrease
@@ -154,7 +185,7 @@ binary_sensor:
           return true;
       }
       return false;
-  # Neutral
+  # Neutral indicator
   - platform: template
     name: $node_prefix neutral
     id: ${node_name}_mixing_valve_status_neutral
@@ -172,7 +203,7 @@ binary_sensor:
           return true;
       }
       return false;
-  # Increase
+  # Increase indicator
   - platform: template
     name: $node_prefix öka
     id: ${node_name}_mixing_valve_status_increase
@@ -195,9 +226,11 @@ number:
     name: $node_prefix läge
     id: ${node_name}_mixing_valve_position_counter
     icon: mdi:knob
+    unit_of_measurement: ""
+    initial_value: 0
+    restore_value: true
+    optimistic: true
     min_value: 0
     max_value: 240
     step: 1
-    initial_value: 0
-    optimistic: true
-    restore_value: true
+    mode: slider
