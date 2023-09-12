@@ -40,7 +40,7 @@ switch:
                 condition:
                   switch.is_on: ${node_name}_controller_mode
                 then:
-                  - delay: 4s
+                  - delay: 8s
                 else:
                   - delay: 1s
   # Mixing valve actuator increase
@@ -60,7 +60,7 @@ switch:
                 condition:
                   switch.is_on: ${node_name}_controller_mode
                 then:
-                  - delay: 4s
+                  - delay: 8s
                 else:
                   - delay: 1s
 
@@ -72,17 +72,18 @@ sensor:
     id: ${node_name}_supply_line_modulation_level_decrease
     icon: mdi:chart-bell-curve-cumulative
     accuracy_decimals: 1
+    update_interval: 10s
     lambda: |-
       float mod_level = 0.0;
       if ( id(${node_name}_controller_mode).state ) {
         float temp_sp = id(${node_name}_supply_line_target_temperature).state;
+        if ( id(${node_name}_outdoor_temp_compensated_mode).state == 0)
+          temp_sp = id(${node_name}_supply_line_controller).target_temperature_low;
         float temp_cu = id(${node_name}_supply_line_temperature).state;
-        float temp_diff =  temp_cu - temp_sp;
+        float temp_diff =  temp_cu - temp_sp;  // positive if current tempereture is above setpoint
         if ( temp_diff > 0.0 ) {
-          if ( temp_diff < 0.4 )
-            mod_level = 10.0;
-          if ( temp_diff < 1.2 )
-            mod_level = 40.0;
+          if ( temp_diff <= 4.0 )
+            mod_level = 100.0/4.0 * temp_diff;
           else
             mod_level = 100.0;
         }
@@ -94,17 +95,18 @@ sensor:
     id: ${node_name}_supply_line_modulation_level_increase
     icon: mdi:chart-bell-curve-cumulative
     accuracy_decimals: 1
+    update_interval: 10s
     lambda: |-
       float mod_level = 0.0;
       if ( id(${node_name}_controller_mode).state ) {
         float temp_sp = id(${node_name}_supply_line_target_temperature).state;
+        if ( id(${node_name}_outdoor_temp_compensated_mode).state == 0)
+          temp_sp = id(${node_name}_supply_line_controller).target_temperature_high;
         float temp_cu = id(${node_name}_supply_line_temperature).state;
-        float temp_diff =  temp_sp - temp_cu;
+        float temp_diff =  temp_sp - temp_cu;  // positive if current tempereture is below setpoint
         if ( temp_diff > 0.0 ) {
-          if ( temp_diff < 0.4 )
-            mod_level = 10.0;
-          if ( temp_diff < 1.2 )
-            mod_level = 40.0;
+          if ( temp_diff <= 4.0 )
+            mod_level = 100.0/4.0 * temp_diff;
           else
             mod_level = 100.0;
         }
@@ -123,7 +125,7 @@ climate:
     # Decrease mixing ratio
     min_cooling_off_time: 1s
     min_cooling_run_time: 1s
-    cool_deadband: 0.2°C
+    cool_deadband: 0.0°C
     cool_overrun:  0.2°C
     cool_action:
       - if:
@@ -135,7 +137,7 @@ climate:
     # Increase mixing ratio
     min_heating_off_time: 1s
     min_heating_run_time: 1s
-    heat_deadband: 0.2°C
+    heat_deadband: 0.0°C
     heat_overrun:  0.2°C
     heat_action:
       - if:
