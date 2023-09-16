@@ -28,10 +28,6 @@ light:
           name: semiauto_mode
           transition_length: 0.2s
           update_interval: 2s
-      - pulse:
-          name: manual_mode
-          transition_length: 0.2s
-          update_interval: 4s
 
 # Controller operational status codes
 sensor:
