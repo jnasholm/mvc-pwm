@@ -64,7 +64,7 @@ sensor:
       if ( (id(mixing_valve_manual_decrease).state) || 
            (id(mixing_valve_manual_increase).state) ) {
         op_code = 3;
-        call.set_effect("manual_mode");
+        call.set_effect("none");
       }
       if ( op_code == 0 ) {
         call = id(${node_name}_controller_status_indicator).turn_off();
