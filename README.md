@@ -12,7 +12,7 @@ Project to create a smart mixing valve actuator controller for private homes wit
 - The switching modules are equipped with [solid state relays](https://www.velleman.eu/products/view/?id=461412).
 - The controller can operate in automatic, semi-automatic or manual mode. Automatic mode with outdoor temperature compensated supply line temperature control. Semi-automatic mode with thermostatic supply line temperature set-point. Manual mode with static mixing valve position and manual increase/decrease.
 - Line temperature sensors are digital [DS18B20](https://www.energibutiken.se/sv/dallas-1-wire-givare/10-dallas-1-wire-pro-rorgivare-02006.html) sensors.
-- Outdoor temperature sensor is either an analog NTC (UVEAB VR-U) or a digital [DS18B20](https://www.energibutiken.se/sv/dallas-1-wire-givare/24-dallas-1-wire-pro-utegivare-02002.html).
+- Outdoor temperature sensor is either an analog [NTC](https://en.wikipedia.org/wiki/Thermistor) (UVEAB VR-U) or a digital [DS18B20](https://www.energibutiken.se/sv/dallas-1-wire-givare/24-dallas-1-wire-pro-utegivare-02002.html).
 - Integration with [Home Assistant](https://www.home-assistant.io/) is recommended. Sensor data and configuration parameters can be imported to operate the controller.
 
 [ESP32 SSR Floor Heating Controller](https://github.com/jnasholm/fhc-pwm)
