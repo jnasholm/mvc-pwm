@@ -4,7 +4,7 @@
 
 # ESP32 SSR Mixing valve actuator controller
 
-Project to create a smart mixing valve actuator controller for private homes with a hydronic underfloor system. Brief project description:
+Project to create a smart mixing valve actuator controller for private homes with a hydronic heating system. Brief project description:
 
 - The controller is an [ESP32](https://www.olimex.com/Products/IoT/ESP32/ESP32-DevKit-LiPo/open-source-hardware) programmed with [ESPHome](https://esphome.io/).
 - The supply line temperature adjustment is based on ESPHome PID control[^1][^2].
