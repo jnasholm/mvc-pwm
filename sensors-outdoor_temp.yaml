@@ -67,7 +67,7 @@ sensor:
     # - 2.20kOhm -> 25°C
     filters:
       - median:
-          window_size: 5
+          window_size: 9
           send_every: 3
           send_first_at: 1
   # Resistance calculation
