@@ -109,6 +109,7 @@ climate:
     name: $node_prefix framledningsreglering
     id: ${node_name}_supply_line_controller
     sensor: ${node_name}_supply_line_temperature
+    #sensor: ${node_name}_supply_line_temperature_median
     default_target_temperature: 21.0°C
     cool_output: ${node_name}_actuator_modulation_decrease
     heat_output: ${node_name}_actuator_modulation_increase
