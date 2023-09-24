@@ -44,7 +44,7 @@ sensor:
     filters:
       - heartbeat: 10s
       - exponential_moving_average:
-          alpha: 0.06
+          alpha: 0.04
           send_every: 3
           send_first_at: 1
 
