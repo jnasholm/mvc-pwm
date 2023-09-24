@@ -108,8 +108,7 @@ climate:
   - platform: pid
     name: $node_prefix framledningsreglering
     id: ${node_name}_supply_line_controller
-    sensor: ${node_name}_supply_line_temperature
-    #sensor: ${node_name}_supply_line_temperature_median
+    sensor: active_supply_line_temperature
     default_target_temperature: 21.0°C
     cool_output: ${node_name}_actuator_modulation_decrease
     heat_output: ${node_name}_actuator_modulation_increase
@@ -134,6 +133,16 @@ climate:
 
 # Supply line temperature controller sensors
 sensor:
+  # Active Supply line temperature sensor
+  - platform: template
+    id: active_supply_line_temperature
+    accuracy_decimals: 2
+    update_interval: 10s
+    lambda: |-
+      if ( id(${node_name}_supply_line_temperature_median).state > 0.0 )
+        return id(${node_name}_supply_line_temperature_median).state;
+      else
+        return id(${node_name}_supply_line_temperature).state;
   # Supply line modulation level decrease
   - platform: pid
     name: $node_prefix reglernivå minska
@@ -196,8 +205,8 @@ binary_sensor:
       - delayed_on_off: 400ms
     lambda: |-
       if ( id(${node_name}_controller_mode).state ) {
-        if ( (id(${node_name}_supply_line_modulation_level_decrease).state <= 0.08) && 
-             (id(${node_name}_supply_line_modulation_level_increase).state <= 0.08) )
+        if ( (id(${node_name}_supply_line_modulation_level_decrease).state <= 4.0) && 
+             (id(${node_name}_supply_line_modulation_level_increase).state <= 4.0) )
           return true;
       } else {
         if ( (id(mixing_valve_manual_decrease).state == 0) &&
