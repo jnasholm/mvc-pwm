@@ -42,6 +42,7 @@ sensor:
     accuracy_decimals: 2
     lambda: return (id(${node_name}_supply_line_temperature).state);
     filters:
+      - heartbeat: 10s
       - exponential_moving_average:
           alpha: 0.06
           send_every: 3
