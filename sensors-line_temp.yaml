@@ -45,7 +45,7 @@ sensor:
       - heartbeat: 10s
       - exponential_moving_average:
           alpha: 0.04
-          send_every: 3
+          send_every: 1
           send_first_at: 1
       - sliding_window_moving_average:
           window_size: 15
