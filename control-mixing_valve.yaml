@@ -267,6 +267,6 @@ number:
     lambda: |-
       if ( id(${node_name}_controller_mode).state == 0 )
         return 1;
-      if ( abs( id(${node_name}_supply_line_target_temperature).state - id(active_supply_line_temperature).state > 2.0 ) )
+      if ( id(${node_name}_controller_status_code).state == 4 )
         return 3;
       return 6;

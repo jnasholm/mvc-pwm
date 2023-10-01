@@ -62,6 +62,11 @@ sensor:
         op_code = 3;
         call.set_effect("none");
       }
+      // Automatic fast operation
+      if ( abs( id(${node_name}_supply_line_target_temperature).state - id(active_supply_line_temperature).state > 2.0 ) ) {
+        op_code = 4;
+        call.set_effect("auto_mode");
+      }
       if ( op_code == 0 ) {
         call = id(${node_name}_controller_status_indicator).turn_off();
       }
@@ -87,4 +92,6 @@ text_sensor:
         op_message = "S.2 Halvautomatiskt driftläge";
       if ( op_code == 3 )
         op_message = "S.3 Manuellt driftläge";
+      if ( op_code == 4 )
+        op_message = "S.4 Automatiskt driftläge snabbgång";
       return {op_message};
