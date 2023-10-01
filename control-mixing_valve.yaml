@@ -36,7 +36,8 @@ switch:
             - number.decrement:
                 id: ${node_name}_mixing_valve_position_counter
                 cycle: false
-            - delay: !lambda  if (id(${node_name}_controller_mode).state) return 4000; else return 1000;
+            - delay: !lambda |-
+                return id(${node_name}_actuator_variable_delay).state * 1000;
     on_turn_off:
       - switch.turn_off: decrease_relay
 
@@ -53,8 +54,8 @@ switch:
             - number.increment:
                 id: ${node_name}_mixing_valve_position_counter
                 cycle: false
-            - delay: !lambda  if (id(${node_name}_controller_mode).state) return 4000; else return 1000;
-
+            - delay: !lambda |-
+                return id(${node_name}_actuator_variable_delay).state * 1000;
     on_turn_off:
       - switch.turn_off: increase_relay
 
@@ -121,10 +122,10 @@ climate:
       output_averaging_samples: 3
       derivative_averaging_samples: 5
     deadband_parameters:
-      threshold_high: 0.2°C
-      threshold_low: -0.2°C
+      threshold_high: 0.18°C
+      threshold_low: -0.08°C
       kp_multiplier: 0.0
-      ki_multiplier: 0.05
+      ki_multiplier: 0.1
       kd_multiplier: 0.0
     visual:
       min_temperature: 15.0°C
@@ -231,8 +232,9 @@ binary_sensor:
       }
       return false;
 
-# Mixing valve actuator position counter
+# Mixing valve actuator numbers
 number:
+  # Mixing valve actuator position counter
   - platform: template
     name: $node_prefix läge
     id: ${node_name}_mixing_valve_position_counter
@@ -245,3 +247,26 @@ number:
     max_value: 240
     step: 1
     mode: slider
+  # Mixing valve actuator variable delay time
+  #   Manual operation:         1s
+  #   Automatic operation:      6s (equals update_interval of sigma_delta_output)
+  #   Automatic fast operation: 3s (temperature difference greater than 2°C)
+  - platform: template
+    name: $node_prefix paustid
+    id: ${node_name}_actuator_variable_delay
+    icon: mdi:knob
+    unit_of_measurement: s
+    min_value: 1
+    max_value: 20
+    step: 1
+    mode: slider
+    set_action:
+      - number.set:
+          id: ${node_name}_actuator_variable_delay
+          value: !lambda return x;
+    lambda: |-
+      if ( id(${node_name}_controller_mode).state == 0 )
+        return 1;
+      if ( abs( id(${node_name}_supply_line_target_temperature).state - id(active_supply_line_temperature).state > 2.0 ) )
+        return 3;
+      return 6;
