@@ -36,8 +36,12 @@ switch:
             - number.decrement:
                 id: ${node_name}_mixing_valve_position_counter
                 cycle: false
+            - component.update: ${node_name}_actuator_variable_delay
             - delay: !lambda |-
-                return id(${node_name}_actuator_variable_delay).state * 1000;
+                if ( id(${node_name}_actuator_variable_delay).state >= 1000 )
+                  return id(${node_name}_actuator_variable_delay).state;
+                else
+                  return 6000;
     on_turn_off:
       - switch.turn_off: decrease_relay
 
@@ -54,8 +58,12 @@ switch:
             - number.increment:
                 id: ${node_name}_mixing_valve_position_counter
                 cycle: false
+            - component.update: ${node_name}_actuator_variable_delay
             - delay: !lambda |-
-                return id(${node_name}_actuator_variable_delay).state * 1000;
+                if ( id(${node_name}_actuator_variable_delay).state >= 1000 )
+                  return id(${node_name}_actuator_variable_delay).state;
+                else
+                  return 6000;
     on_turn_off:
       - switch.turn_off: increase_relay
 
@@ -144,6 +152,25 @@ sensor:
         return id(${node_name}_supply_line_temperature_median).state;
       else
         return id(${node_name}_supply_line_temperature).state;
+  # Mixing valve actuator variable delay time
+  #   Manual operation:         1s
+  #   Automatic operation:      6s (mixing valve actuator variable delay setting)
+  #   Automatic fast operation: 3s (large temperature difference)
+  - platform: template
+    id: ${node_name}_actuator_variable_delay
+    accuracy_decimals: 0
+    update_interval: never
+    lambda: |-
+      if ( id(mixing_valve_manual_decrease).state )
+        return 1000;
+      if ( id(mixing_valve_manual_increase).state )
+        return 1000;
+      if ( id(${node_name}_controller_status_code).state == 4 )
+        return 3000;
+      if ( (id(${node_name}_controller_mode).state) &&
+           (id(${node_name}_actuator_variable_delay_setting).state >= 1) )
+        return id(${node_name}_actuator_variable_delay_setting).state * 1000;
+      return 12000;
   # Supply line modulation level decrease
   - platform: pid
     name: $node_prefix reglernivå minska
@@ -247,26 +274,16 @@ number:
     max_value: 240
     step: 1
     mode: slider
-  # Mixing valve actuator variable delay time
-  #   Manual operation:         1s
-  #   Automatic operation:      6s (equals update_interval of sigma_delta_output)
-  #   Automatic fast operation: 3s (temperature difference greater than 2°C)
+  # Mixing valve actuator variable delay setting
   - platform: template
     name: $node_prefix paustid
-    id: ${node_name}_actuator_variable_delay
+    id: ${node_name}_actuator_variable_delay_setting
     icon: mdi:knob
     unit_of_measurement: s
+    initial_value: 6
+    restore_value: true
+    optimistic: true
     min_value: 1
     max_value: 20
     step: 1
     mode: slider
-    set_action:
-      - number.set:
-          id: ${node_name}_actuator_variable_delay
-          value: !lambda return x;
-    lambda: |-
-      if ( id(${node_name}_controller_mode).state == 0 )
-        return 1;
-      if ( id(${node_name}_controller_status_code).state == 4 )
-        return 3;
-      return 6;
