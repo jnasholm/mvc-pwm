@@ -48,8 +48,8 @@ switch:
               id(${node_name}_mixing_valve_actuator_increase).turn_off();
             if ( id(mixing_valve_manual_increase).state )
               id(mixing_valve_manual_increase).turn_off();
-            id(${node_name}_mixing_valve_actuator_decrease).turn_on();
             id(mixing_valve_manual_decrease).publish_state(true);
+            id(${node_name}_mixing_valve_actuator_decrease).turn_on();
           }
     turn_off_action:
       - lambda: |-
@@ -69,8 +69,8 @@ switch:
               id(${node_name}_mixing_valve_actuator_decrease).turn_off();
             if ( id(mixing_valve_manual_decrease).state )
               id(mixing_valve_manual_decrease).turn_off();
-            id(${node_name}_mixing_valve_actuator_increase).turn_on();
             id(mixing_valve_manual_increase).publish_state(true);
+            id(${node_name}_mixing_valve_actuator_increase).turn_on();
           }
     turn_off_action:
       - lambda: |-
