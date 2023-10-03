@@ -30,7 +30,9 @@ switch:
     on_turn_on:
       - while:
           condition:
-            switch.is_on: ${node_name}_mixing_valve_actuator_decrease
+            and:
+              - switch.is_on: ${node_name}_mixing_valve_actuator_decrease
+              - switch.is_off: ${node_name}_mixing_valve_position_hold
           then:
             - switch.turn_on: decrease_relay
             - number.decrement:
@@ -52,7 +54,9 @@ switch:
     on_turn_on:
       - while:
           condition:
-            switch.is_on: ${node_name}_mixing_valve_actuator_increase
+            and:
+              - switch.is_on: ${node_name}_mixing_valve_actuator_increase
+              - switch.is_off: ${node_name}_mixing_valve_position_hold
           then:
             - switch.turn_on: increase_relay
             - number.increment:
@@ -133,7 +137,7 @@ climate:
       threshold_high: 0.18°C
       threshold_low: -0.08°C
       kp_multiplier: 0.0
-      ki_multiplier: 0.1
+      ki_multiplier: 0.2
       kd_multiplier: 0.0
     visual:
       min_temperature: 15.0°C
@@ -155,7 +159,6 @@ sensor:
   # Mixing valve actuator variable delay time
   #   Manual operation:         1s
   #   Automatic operation:      6s (mixing valve actuator variable delay setting)
-  #   Automatic fast operation: 3s (large temperature difference)
   - platform: template
     id: ${node_name}_actuator_variable_delay
     accuracy_decimals: 0
@@ -165,8 +168,6 @@ sensor:
         return 1000;
       if ( id(mixing_valve_manual_increase).state )
         return 1000;
-      if ( id(${node_name}_controller_status_code).state == 4 )
-        return 3000;
       if ( (id(${node_name}_controller_mode).state) &&
            (id(${node_name}_actuator_variable_delay_setting).state >= 1) )
         return id(${node_name}_actuator_variable_delay_setting).state * 1000;

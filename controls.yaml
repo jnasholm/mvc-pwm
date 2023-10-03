@@ -20,6 +20,7 @@ switch:
       - lambda: |-
           id(mixing_valve_manual_decrease).turn_off();
           id(mixing_valve_manual_increase).turn_off();
+          id(${node_name}_mixing_valve_position_hold).turn_off();
           id(${node_name}_controller_mode).publish_state(true);
           id(${node_name}_outdoor_temp_compensated_mode).publish_state(true);
       - climate.control:
@@ -30,6 +31,7 @@ switch:
       - lambda: |-
           id(${node_name}_mixing_valve_actuator_decrease).turn_off();
           id(${node_name}_mixing_valve_actuator_increase).turn_off();
+          id(${node_name}_mixing_valve_position_hold).turn_off();
           id(${node_name}_controller_mode).publish_state(false);
           id(${node_name}_outdoor_temp_compensated_mode).publish_state(false);
       - climate.control:
@@ -78,6 +80,19 @@ switch:
             id(${node_name}_mixing_valve_actuator_increase).turn_off();
             id(mixing_valve_manual_increase).publish_state(false);
           }
+  # Actuator hold position
+  - platform: template
+    name: $node_prefix lägeshållning
+    id: ${node_name}_mixing_valve_position_hold
+    icon: mdi:stop-circle
+    turn_on_action:
+      - lambda: |-
+          if ( id(${node_name}_controller_mode).state )
+            id(${node_name}_mixing_valve_position_hold).publish_state(true);
+    turn_off_action:
+      - lambda: |-
+          if ( id(${node_name}_controller_mode).state )
+            id(${node_name}_mixing_valve_position_hold).publish_state(false);
 
 # Buttons
 button:
