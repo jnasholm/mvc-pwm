@@ -84,7 +84,7 @@ switch:
   - platform: template
     name: $node_prefix lägeshållning
     id: ${node_name}_mixing_valve_position_hold
-    icon: mdi:stop-circle
+    icon: mdi:pause-circle
     turn_on_action:
       - lambda: |-
           if ( id(${node_name}_controller_mode).state )
