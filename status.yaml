@@ -71,9 +71,8 @@ sensor:
         op_code = 4;
         call.set_effect("hold_mode");
       }
-      if ( op_code == 0 ) {
+      if ( op_code == 0 )
         call = id(${node_name}_controller_status_indicator).turn_off();
-      }
       id(${node_name}_controller_status_code).publish_state(op_code);
       id(${node_name}_controller_status_message).update();
       call.perform();
