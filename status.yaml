@@ -28,6 +28,10 @@ light:
           name: semiauto_mode
           transition_length: 0.2s
           update_interval: 2s
+      - pulse:
+          name: hold_mode
+          transition_length: 0.2s
+          update_interval: 4s
 
 # Controller operational status codes
 sensor:
@@ -65,7 +69,7 @@ sensor:
       // Actuator hold position
       if ( id(${node_name}_mixing_valve_position_hold).state ) {
         op_code = 4;
-        call.set_effect("auto_mode");
+        call.set_effect("hold_mode");
       }
       if ( op_code == 0 ) {
         call = id(${node_name}_controller_status_indicator).turn_off();
