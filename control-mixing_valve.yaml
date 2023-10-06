@@ -134,9 +134,9 @@ climate:
       output_averaging_samples: 3
       derivative_averaging_samples: 5
     deadband_parameters:
-      threshold_high: 0.18°C
+      threshold_high: 0.08°C
       threshold_low: -0.08°C
-      kp_multiplier: 0.0
+      kp_multiplier: 0.1
       ki_multiplier: 0.2
       kd_multiplier: 0.1
     visual:
