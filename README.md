@@ -50,10 +50,9 @@ The actuator is run with a fixed 1 s pulse interval, which is quite fast for hyd
 
 **Temperature compensation set-points:** Also generally known as “heat curve”. A set of points between which the target supply line temperature is calculated based on meassured outdoor temperature. Available points are p1 to p6. Default values are:
 
-|---|:-:|:-:|
-||Outdoor temperature|Target supply line temperature|
-||°C|°C|
-|---|--------:|--------:|
+| |Outdoor temperature|Target supply line temperature|
+| |°C|°C|
+|---|:-------:|:-------:|
 |p1|-10|29.0|
 |p2|-5|26.8|
 |p3|0|25.0|
