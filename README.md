@@ -69,20 +69,20 @@ My controller set-up has the following temperature compensation set-points. Stil
 The following parameters are configurable in the source code before compilation and upload to the controller.
 
 |Parameter|Description|My current|
-|----------------------------|----------------------------|-------------|
-|...kp...|PID climate proportional control parameter|1.2|
-|...ki...|PID climate integral control parameter|0.0041667|
-|...kd...|PID climate derivative control parameter|6.0|
-|...output_averaging_samples...|PID climate output averaging|3|
-|...derivative_averaging_samples...|PID climate derivative averaging|5|
-|...threshold_high...|PID climate deadband upper limit|0.16°C|
-|...threshold_low...|PID climate deadband lower limit|0°C|
-|...kp_multiplier...|PID climate deadband proportional scaling|0.1|
-|...ki_multiplier...|PID climate deadband integral scaling|0.2|
-|...kd_multiplier...|PID climate deadband derivative scaling|0.4|
-|...min_temperature...|PID climate thermostat lower limit|15.0°C|
-|...max_temperature...|PID climate thermostat upper limit|35.0°C|
-|...temperature_step...|PID climate thermostat minimum step|0.1°C|
+|----------------------------|----------------------------|:-------:|
+|```kp```|PID climate proportional control parameter|1.2|
+|```ki```|PID climate integral control parameter|0.0041667|
+|```kd```|PID climate derivative control parameter|6.0|
+|```output_averaging_samples```|PID climate output averaging|3|
+|```derivative_averaging_samples```|PID climate derivative averaging|5|
+|```threshold_high```|PID climate deadband upper limit|0.16°C|
+|```threshold_low```|PID climate deadband lower limit|0°C|
+|```kp_multiplier```|PID climate deadband proportional scaling|0.1|
+|```ki_multiplier```|PID climate deadband integral scaling|0.2|
+|```kd_multiplier```|PID climate deadband derivative scaling|0.4|
+|```min_temperature```|PID climate thermostat lower limit|15.0°C|
+|```max_temperature```|PID climate thermostat upper limit|35.0°C|
+|```temperature_step```|PID climate thermostat minimum step|0.1°C|
 
 [^1]: [PI Parameter Influence on Underfloor Heating Energy Consumption and Setpoint Tracking in nZEBs](https://www.mdpi.com/1996-1073/13/8/2068)
 [^2]: [Reglering, om P-, I-, D-bidraget](https://www.bastec.se/anvandarmanual/reglering-p-i-d-bidraget/)
