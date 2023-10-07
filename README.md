@@ -98,8 +98,8 @@ This is how the parameters for my current controller are calculated. Work in pro
 |Integral time, $T_i$|240s|$0.50 P_c$|
 |Derivative time, $T_d$|60s|$0.25 T_i$|
 |Proportional constant, $kp$|1.2|$0.60 K_c$|
-|Integral constant, $ki$|0.0041667|$\frac{1}{T_i}$|
-|Derivative constant, $kd$|6.0|$\frac{T_d}{T_s}$|
+|Integral constant, $ki$|0.0041667|$1/T_i$|
+|Derivative constant, $kd$|6.0|$T_d/T_s$|
 
 
 [^1]: [PI Parameter Influence on Underfloor Heating Energy Consumption and Setpoint Tracking in nZEBs](https://www.mdpi.com/1996-1073/13/8/2068)
