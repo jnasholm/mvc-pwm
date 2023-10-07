@@ -69,21 +69,21 @@ My controller set-up has the following temperature compensation set-points. Stil
 
 The following parameters are configurable in the source code of ```control-mixing_valve.yaml``` before compilation and upload to the controller.
 
-|Parameter|Description|My current|
+|Parameter|Value|Description|
 |----------------------------|----------------------------|:-------:|
-|```kp```|PID climate proportional control parameter|1.2|
-|```ki```|PID climate integral control parameter|0.0041667|
-|```kd```|PID climate derivative control parameter|6.0|
-|```output_averaging_samples```|PID climate output averaging|3|
-|```derivative_averaging_samples```|PID climate derivative averaging|5|
-|```threshold_high```|PID climate deadband upper limit|0.16°C|
-|```threshold_low```|PID climate deadband lower limit|0°C|
-|```kp_multiplier```|PID climate deadband proportional scaling|0.1|
-|```ki_multiplier```|PID climate deadband integral scaling|0.2|
-|```kd_multiplier```|PID climate deadband derivative scaling|0.4|
-|```min_temperature```|PID climate thermostat lower limit|15.0°C|
-|```max_temperature```|PID climate thermostat upper limit|35.0°C|
-|```temperature_step```|PID climate thermostat minimum change|0.1°C|
+|```kp```|1.2|PID climate proportional control parameter|
+|```ki```|0.0041667|PID climate integral control parameter|
+|```kd```|6.0|PID climate derivative control parameter|
+|```output_averaging_samples```|3|PID climate output averaging|
+|```derivative_averaging_samples```|5|PID climate derivative averaging|
+|```threshold_high```|0.16°C|PID climate deadband upper limit|
+|```threshold_low```|0°C|PID climate deadband lower limit|
+|```kp_multiplier```|0.1|PID climate deadband proportional scaling|
+|```ki_multiplier```|0.2|PID climate deadband integral scaling|
+|```kd_multiplier```|0.4|PID climate deadband derivative scaling|
+|```min_temperature```|15.0°C|PID climate thermostat lower limit|
+|```max_temperature```|35.0°C|PID climate thermostat upper limit|
+|```temperature_step```|0.1°C|PID climate thermostat minimum change|
 
 ## PID controller parameters
 
