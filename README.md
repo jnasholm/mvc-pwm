@@ -92,14 +92,14 @@ This is how the parameters for my current controller are calculated. Work in pro
 
 |Parameter|Value|Description or calculation|
 |----|:----:|----|
-|Sampling time, Ts|10s|Update interval of the supply line temperature sensor|
-|Critical gain, Kc|2.0|Proportional constant causing oscillation|
-|Critical period, Pc|480s|Cycle time at oscillating condition|
+|Sampling time, $Ts$|10s|Update interval of the supply line temperature sensor|
+|Critical gain, $Kc$|2.0|Proportional constant causing oscillation|
+|Critical period, $Pc$|480s|Cycle time at oscillating condition|
 |Integral time, $Ti$|240s|$0.50 \times Pc$|
-|Derivative time, Td|60s|0.25 x Ti|
-|Proportional constant, kp|1.2|0.60 x Kc|
-|Integral constant, ki|0.0041667|1/Ti|
-|Derivative constant, kd|6.0|Td/Ts|
+|Derivative time, $Td$|60s|$0.25 \times Ti$|
+|Proportional constant, $kp$|1.2|$0.60 \times Kc$|
+|Integral constant, $ki$|0.0041667|$1 \frac Ti$|
+|Derivative constant, $kd$|6.0|$Td \frac Ts$|
 
 
 [^1]: [PI Parameter Influence on Underfloor Heating Energy Consumption and Setpoint Tracking in nZEBs](https://www.mdpi.com/1996-1073/13/8/2068)
