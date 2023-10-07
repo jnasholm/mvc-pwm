@@ -43,8 +43,7 @@ This can be used to quickly reposition the actuator if it has reached an unexpec
 
 ### Through front-end
 
-**Actuator pulse interval**
-Adjustable between 2 and 20 s. Default pulse interval is 6 s.
+**Actuator pulse interval:** Adjustable between 2 and 20 s. Default is 6 s.
 
 
 **Note:** The controller hardware is theoretically capable of operating 110-230 VAC mixing valve actuators. This will however not be tested in the project.
