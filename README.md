@@ -38,13 +38,13 @@ This is the idle state (0) for the actuator. No thermostat function is in effect
 
 This can be used to quickly reposition the actuator if it has reached an unexpected or extreme position for some reason. During the initial configuration and adjustment of the control parameters, sometimes you end up with a severely oscillating, fully open, or fully closed actuator position by mistake. Switch to manual mode to regain some form of steady state, reconfigure and try again.
 
-
-## Configuration parameters
-
-### Through front-end
+## Front-end configuration and control
 
 **Actuator pulse interval:** Adjustable between 2 and 20 s. Default is 6 s.
 
+**Controller mode:** Switch on for automatic, switch off for manual mode. Default is on.
+
+**Outdoor temperature compensation:** Switch on for compensation, switch off for no compensation. Default is on in automatic mode.
 
 **Note:** The controller hardware is theoretically capable of operating 110-230 VAC mixing valve actuators. This will however not be tested in the project.
 
