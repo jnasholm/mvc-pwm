@@ -17,6 +17,8 @@ Project to create a smart mixing valve actuator controller for private homes wit
 
 [ESP32 SSR Floor Heating Controller](https://github.com/jnasholm/fhc-pwm)
 
+**Note:** The controller hardware is theoretically capable of operating 110-230 VAC mixing valve actuators. This will however not be tested in the project.
+
 ## Description
 The controller is designed to be a drop-in replacement for the legacy UVEAB EVR-CDR digital valve actuator controller. This controller has a classic outdoor temperature sensor EVR-U with a thermal resistor (NTC) to compensate the supply line temperature set-point. For closed loop feed-back to the controller another sensor EVR-F, also a thermal resistor (NTC), is attached to the supply line for the hydronic floor heating manifold. An indoor temperature sensor EVR-T was also available as an option but will not be covered here. The controller has four configurable operational parameter settings through manual potentiometers, heating gain curve, parallel curve displacement, actuator pulse interval, and night reduction. My controller had the gain set to 0.8, the displacement set to -2.5, pulse interval set to 20 s, and night reduction set to 0, when it was replaced with the smart controller.
 
@@ -40,15 +42,14 @@ The actuator is run with a fixed 1 s pulse interval, which is quite fast for hyd
 
 ## Front-end configuration and control
 
-**Actuator pulse interval:** Adjustable between 2 and 20 s. Decrease value to make the actuator faster in response, increase to make the actuator slower in response. Too small value can cause oscillation, too large can case over- or under-shoot of set-point. Default is 6 s.
+|----------------------------|----------------------------|
+|**Actuator pulse interval**|Adjustable between 2 and 20 s. Decrease value to make the actuator faster in response, increase to make the actuator slower in response. Too small value can cause oscillation, too large can case over- or under-shoot of set-point. Default is 6 s.|
+|**Controller mode**|Switch on for automatic mode, switch off for manual mode. Default is on.|
+|**Outdoor temperature compensation**|Switch on for compensation, switch off for no compensation. Default is on in automatic mode.|
+|**Position hold**|Switch on to enable actuator position hold, switch off to release actuator position hold. Default is off.|
+|**Temperature compensation set-points**|Generally known as “heat curve”. A set of points between which the target supply line temperature is calculated based on meassured outdoor temperature. Calculation is based on linear interpolation. Available points are p1 to p6.|
 
-**Controller mode:** Switch on for automatic mode, switch off for manual mode. Default is on.
-
-**Outdoor temperature compensation:** Switch on for compensation, switch off for no compensation. Default is on in automatic mode.
-
-**Position hold:** Switch on to enable actuator position hold, switch off to release actuator position hold. Default is off.
-
-**Temperature compensation set-points:** Generally known as “heat curve”. A set of points between which the target supply line temperature is calculated based on meassured outdoor temperature. Calculation is based on linear interpolation. Available points are p1 to p6. Default point set values are:
+### Default compensation set-points
 
 | |Outdoor temperature|Target supply line temperature|
 |---|:-------:|:-------:|
@@ -59,8 +60,6 @@ The actuator is run with a fixed 1 s pulse interval, which is quite fast for hyd
 |p4|5|23.8|
 |p5|10|23.0|
 |p6|20|22.0|
-
-**Note:** The controller hardware is theoretically capable of operating 110-230 VAC mixing valve actuators. This will however not be tested in the project.
 
 [^1]: [PI Parameter Influence on Underfloor Heating Energy Consumption and Setpoint Tracking in nZEBs](https://www.mdpi.com/1996-1073/13/8/2068)
 [^2]: [Reglering, om P-, I-, D-bidraget](https://www.bastec.se/anvandarmanual/reglering-p-i-d-bidraget/)
