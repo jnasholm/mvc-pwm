@@ -34,17 +34,32 @@ One practical scenario is if the temperature on the mixing valve inlet is not en
 This is the active state (2) for the actuator. The thermostat function is in effect but no compensation based on outdoor temperature is performed. The actuator is operated with a static set-point value through the front-end. The actuator is run with the pulse interval configured through the front-end.
 
 ### Manual mode
-This is the idle state (0) for the actuator. No thermostat function is in effect and no compensation based on outdoor temperature is performed. The actuator is operated completely through manual switches, one for increasing the actuator position, one for decreasing the actuator position, and a stop button. When running this is the manual state (3) for the actuator. The actuator is run with a fixed 1 s pulse interval, which is quite fast for hydronic floor heating systems.
+This is the idle state (0) for the actuator. No thermostat function is in effect and no compensation based on outdoor temperature is performed. The actuator is operated completely through manual switches, one for increasing the actuator position, one for decreasing the actuator position, and a stop button. When running this is the manual state (3) for the actuator.
 
-This can be used to quickly reposition the actuator if it has reached an unexpected or extreme position for some reason. During the initial configuration and adjustment of the control parameters, sometimes you end up with a severely oscillating, fully open, or fully closed actuator position by mistake. Switch to manual mode to regain some form of steady state, reconfigure and try again.
+The actuator is run with a fixed 1 s pulse interval, which is quite fast for hydronic floor heating systems. This can be used to quickly reposition the actuator if it has reached an unexpected or extreme position for some reason. During the initial configuration and adjustment of the control parameters, sometimes you end up with a severely oscillating, fully open, or fully closed actuator position by mistake. Switch to manual mode to regain some form of steady state, reconfigure and try again.
 
 ## Front-end configuration and control
 
-**Actuator pulse interval:** Adjustable between 2 and 20 s. Default is 6 s.
+**Actuator pulse interval:** Adjustable between 2 and 20 s. Decrease value to make the actuator faster in response, increase to make the actuator slower in response. Too small value can cause oscillation, too large can case over- or under-shoot of set-point. Default is 6 s.
 
-**Controller mode:** Switch on for automatic, switch off for manual mode. Default is on.
+**Controller mode:** Switch on for automatic mode, switch off for manual mode. Default is on.
 
 **Outdoor temperature compensation:** Switch on for compensation, switch off for no compensation. Default is on in automatic mode.
+
+**Position hold:** Switch on to enable actuator position hold, switch off to release actuator position hold. Default is off.
+
+**Temperature compensation set-points:** Also generally known as “heat curve”. A set of points between which the target supply line temperature is calculated based on meassured outdoor temperature. Available points are p1 to p6. Default values are:
+
+|---|:-:|:-:|
+||Outdoor temperature|Target supply line temperature|
+||°C|°C|
+|---|--------:|--------:|
+|p1|-10|29.0|
+|p2|-5|26.8|
+|p3|0|25.0|
+|p4|5|23.8|
+|p5|10|23.0|
+|p6|20|22.0|
 
 **Note:** The controller hardware is theoretically capable of operating 110-230 VAC mixing valve actuators. This will however not be tested in the project.
 
