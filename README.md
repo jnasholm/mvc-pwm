@@ -48,7 +48,7 @@ The actuator is run with a fixed 1 s pulse interval, which is quite fast for hyd
 
 **Position hold:** Switch on to enable actuator position hold, switch off to release actuator position hold. Default is off.
 
-**Temperature compensation set-points:** Also generally known as “heat curve”. A set of points between which the target supply line temperature is calculated based on meassured outdoor temperature. Available points are p1 to p6. Default values are:
+**Temperature compensation set-points:** Generally known as “heat curve”. A set of points between which the target supply line temperature is calculated based on meassured outdoor temperature. Calculation is based on linear interpolation. Available points are p1 to p6. Default point set values are:
 
 | |Outdoor temperature|Target supply line temperature|
 |---|:-------:|:-------:|
