@@ -95,7 +95,7 @@ This is how the parameters for my current controller are calculated. Work in pro
 |Sampling time, Ts|10s|Update interval of the supply line temperature sensor|
 |Critical gain, Kc|2.0|Proportional constant causing oscillation|
 |Critical period, Pc|480s|Cycle time at oscillating condition|
-|Integral time, Ti|240s|$0.50*Pc$|
+|Integral time, $Ti$|240s|$0.50\timesPc$|
 |Derivative time, Td|60s|0.25 x Ti|
 |Proportional constant, kp|1.2|0.60 x Kc|
 |Integral constant, ki|0.0041667|1/Ti|
