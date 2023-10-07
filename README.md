@@ -42,15 +42,17 @@ The actuator is run with a fixed 1 s pulse interval, which is quite fast for hyd
 
 ## Front-end configuration and control
 
-|Configuration and control|Description|
-|----------------------------|----------------------------|
-|**Actuator pulse interval**|Adjustable between 2 and 20 s. Decrease value to make the actuator faster in response, increase to make the actuator slower in response. Too small value can cause oscillation, too large can case over- or under-shoot of set-point. Default is 6 s.|
-|**Controller mode**|Switch on for automatic mode, switch off for manual mode. Default is on.|
-|**Outdoor temperature compensation**|Switch on for compensation, switch off for no compensation. Default is on in automatic mode.|
-|**Position hold**|Switch on to enable actuator position hold, switch off to release actuator position hold. Default is off.|
-|**Temperature compensation set-points**|Generally known as “heat curve”. A set of points between which the target supply line temperature is calculated based on meassured outdoor temperature. Calculation is based on linear interpolation. Available points are p1 to p6.|
+|Configuration and control|Description|Default|
+|----------------------------|----------------------------|-------------|
+|**Actuator pulse interval**|Adjustable between 2 and 20 s. Decrease value to make the actuator faster in response, increase to make the actuator slower in response. Too small value can cause oscillation, too large can case over- or under-shoot of set-point.|6 s|
+|**Controller mode**|Switch on for automatic mode, switch off for manual mode.|on|
+|**Outdoor temperature compensation**|Switch on for compensation, switch off for no compensation.|on|
+|**Position hold**|Switch on to enable actuator position hold, switch off to release actuator position hold.|off|
+|**Temperature compensation set-points**|Generally known as “heat curve”. A set of points between which the target supply line temperature is calculated based on meassured outdoor temperature. Calculation principle is linear interpolation. Available points are p1 to p6.||
 
 ### Default compensation set-points
+
+My controller set-up has the following temperature compensation set-points. Still under experimenting and tweaking during the autumn 2023 and winter 2024.
 
 | |Outdoor temperature|Target supply line temperature|
 |---|:-------:|:-------:|
@@ -61,6 +63,14 @@ The actuator is run with a fixed 1 s pulse interval, which is quite fast for hyd
 |p4|5|23.8|
 |p5|10|23.0|
 |p6|20|22.0|
+
+## Static controller configuration parameters
+
+The following parameters are configurable in the source code before compilation and upload to the controller.
+
+|Parameter|Description|My current|
+|----------------------------|----------------------------|-------------|
+| | | |
 
 [^1]: [PI Parameter Influence on Underfloor Heating Energy Consumption and Setpoint Tracking in nZEBs](https://www.mdpi.com/1996-1073/13/8/2068)
 [^2]: [Reglering, om P-, I-, D-bidraget](https://www.bastec.se/anvandarmanual/reglering-p-i-d-bidraget/)
