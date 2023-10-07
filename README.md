@@ -88,6 +88,19 @@ The following parameters are configurable in the source code before compilation 
 
 Finding and fine tuning the PID controller parameters can be a bit easier with a structured approach. I have had the best results with the [Ziegler-Nichols method](https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method) (Åström and Hägglund). Suggested reading on this topic is the [Principles of PID](https://blog.opticontrols.com/archives/344).
 
+This is how the parameters for my current controller was calculated.
+
+|Parameter|Value|Description or calculation|
+|----|----|----|
+|Sampling time, Ts|10s|Update interval of temperature sensor|
+|Critical gain, Kc|2.0|Proportional constant causing oscillation|
+|Critical period, Pc|480s|Cycle time at oscillating condition|
+|Integral time, Ti|240s|0.50 x Pc|
+|Derivative time, Td|60s|0.25 x Ti|
+|Proportional constant, kp|1.2|0.60 x Kc|
+|Integral constant, ki|0.0041667|1/Ti|
+|Derivative constant, kd|6.0|Td/Ts|
+
 
 [^1]: [PI Parameter Influence on Underfloor Heating Energy Consumption and Setpoint Tracking in nZEBs](https://www.mdpi.com/1996-1073/13/8/2068)
 [^2]: [Reglering, om P-, I-, D-bidraget](https://www.bastec.se/anvandarmanual/reglering-p-i-d-bidraget/)
