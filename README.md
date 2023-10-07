@@ -70,7 +70,7 @@ My controller set-up has the following temperature compensation set-points. Stil
 The following parameters are configurable in the source code of ```control-mixing_valve.yaml``` before compilation and upload to the controller.
 
 |Parameter|Value|Description|
-|----------------------------|----------------------------|:-------:|
+|----------------------------|:----:|----------------------------|
 |```kp```|1.2|PID climate proportional control parameter|
 |```ki```|0.0041667|PID climate integral control parameter|
 |```kd```|6.0|PID climate derivative control parameter|
