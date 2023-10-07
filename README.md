@@ -92,7 +92,7 @@ This is how the parameters for my current controller are calculated. Work in pro
 
 |Parameter|Value|Description or calculation|
 |----|:----:|----|
-|Sampling time, $Ts$|10s|Update interval of the supply line temperature sensor|
+|Sampling time, $T_s$|10s|Update interval of the supply line temperature sensor|
 |Critical gain, $Kc$|2.0|Proportional constant causing oscillation|
 |Critical period, $Pc$|480s|Cycle time at oscillating condition|
 |Integral time, $Ti$|240s|$0.50 \times Pc$|
