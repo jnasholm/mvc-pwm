@@ -55,14 +55,15 @@ The actuator is run with a fixed 1 s pulse interval, which is quite fast for hyd
 
 My controller set-up has the following temperature compensation set-points. Still experimenting and tweaking these during the autumn 2023 and winter 2024.
 
-| |Outdoor temperature|Target supply line temperature|
+|Point|Outdoor temperature|Target supply line temperature|
 |---|:-------:|:-------:|
-|p1|-10|29.0|
-|p2|-5|26.8|
-|p3|0|25.0|
-|p4|5|23.8|
-|p5|10|23.0|
-|p6|20|22.0|
+|```p1```|-10|29.0|
+|```p2```|-5|26.8|
+|```p3```|0|25.0|
+|```p4```|5|23.8|
+|```p5```|10|23.0|
+|```p6```|20|22.0|
+
 *All temperatures in °C.*
 
 ## Static controller configuration parameters
