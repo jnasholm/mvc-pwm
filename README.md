@@ -42,6 +42,7 @@ The actuator is run with a fixed 1 s pulse interval, which is quite fast for hyd
 
 ## Front-end configuration and control
 
+|Configuration and control|Description|
 |----------------------------|----------------------------|
 |**Actuator pulse interval**|Adjustable between 2 and 20 s. Decrease value to make the actuator faster in response, increase to make the actuator slower in response. Too small value can cause oscillation, too large can case over- or under-shoot of set-point. Default is 6 s.|
 |**Controller mode**|Switch on for automatic mode, switch off for manual mode. Default is on.|
