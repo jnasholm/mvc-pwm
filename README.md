@@ -18,23 +18,23 @@ Project to create a smart mixing valve actuator controller for private homes wit
 [ESP32 SSR Floor Heating Controller](https://github.com/jnasholm/fhc-pwm)
 
 ## Description
-The controller is designed to be a drop-in replacement for the legacy UVEAB EVR-CDR digital valve actuator controller. This controller has a classic outdoor temperature sensor EVR-U with a thermal resistor (NTC) to compensate the supply line temperature set-point. For closed loop feed-back to the controller another sensor EVR-F, also a thermal resistor (NTC), is attached to the supply line for the hydronic floor heating manifold. An indoor temperature sensor EVR-T was also available as an option but will not be covered here. The controller has four configurable operational parameter settings through manual potentiometers, heating gain curve, parallel curve displacement, actuator pulse interval, and night reduction. My controller had the gain set to 0.8, the displacement set to -2.5, pulse interval set to 20s, and night reduction set to 0, when it was replaced with the smart controller.
+The controller is designed to be a drop-in replacement for the legacy UVEAB EVR-CDR digital valve actuator controller. This controller has a classic outdoor temperature sensor EVR-U with a thermal resistor (NTC) to compensate the supply line temperature set-point. For closed loop feed-back to the controller another sensor EVR-F, also a thermal resistor (NTC), is attached to the supply line for the hydronic floor heating manifold. An indoor temperature sensor EVR-T was also available as an option but will not be covered here. The controller has four configurable operational parameter settings through manual potentiometers, heating gain curve, parallel curve displacement, actuator pulse interval, and night reduction. My controller had the gain set to 0.8, the displacement set to -2.5, pulse interval set to 20 s, and night reduction set to 0, when it was replaced with the smart controller.
 
-In the set-up of my smart controller the supply line temperature sensor is replaced with a modern digital temperature sensor. The existing outdoor temperature sensor is reused without modification. Also the mixing valve actuator is reused. The mixing valve actuator is an ESBE ARA600 operated as a reversible 24VAC electric motor with 90° rotational travel in 120s.
+In the set-up of my smart controller the supply line temperature sensor is replaced with a modern digital temperature sensor. The existing outdoor temperature sensor is reused without modification. Also the mixing valve actuator is reused. The mixing valve actuator is an ESBE ARA600 operated as a reversible 24 VAC electric motor with 90° rotational travel in 120 s.
 
 The controller as two principal modes of operation, automatic and manual.
-# Automatic mode
+### Automatic mode
 This is the active state (1) for the actuator. The thermostat function is in effect and compensation based on outdoor temperature is performed. The actuator is operated completely based on parameter settings. The actuator is run with the pulse interval configured through the front-end.
 
 The actuator operation can be temporarily paused if necessary. This is the position hold state (4) for the actuator. No position adjustment of the actuator is performed. This function can be called from the front-end.
 
 One practical scenario is if the temperature on the mixing valve inlet is not enough above the temperature set-point for the supply line. The controllability of the supply line temperature will then be low to none, and increasing the actuator position is pointless. When enough positive temperature difference is achieved, then the position hold can be released from the font-end, and the controller resumes automatic operation.
 
-# Semi-automatic mode
+### Semi-automatic mode
 This is the active state (2) for the actuator. The thermostat function is in effect but no compensation based on outdoor temperature is performed. The actuator is operated with a static set-point value through the front-end. The actuator is run with the pulse interval configured through the front-end.
 
-# Manual mode
-This is the idle state (0) for the actuator. No thermostat function is in effect and no compensation based on outdoor temperature is performed. The actuator is operated completely through manual switches, one for increasing the actuator position, one for decreasing the actuator position, and a stop button. When running this is the manual state (3) for the actuator. The actuator is run with a fixed 1s pulse interval, which is quite fast for hydronic floor heating systems.
+### Manual mode
+This is the idle state (0) for the actuator. No thermostat function is in effect and no compensation based on outdoor temperature is performed. The actuator is operated completely through manual switches, one for increasing the actuator position, one for decreasing the actuator position, and a stop button. When running this is the manual state (3) for the actuator. The actuator is run with a fixed 1 s pulse interval, which is quite fast for hydronic floor heating systems.
 
 This can be used to quickly reposition the actuator if it has reached an unexpected or extreme position for some reason. During the initial configuration and adjustment of the control parameters, sometimes you end up with a severely oscillating, fully open, or fully closed actuator position by mistake. Switch to manual mode to regain some form of steady state, reconfigure and try again.
 
