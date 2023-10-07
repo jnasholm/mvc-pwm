@@ -82,7 +82,12 @@ The following parameters are configurable in the source code before compilation 
 |```kd_multiplier```|PID climate deadband derivative scaling|0.4|
 |```min_temperature```|PID climate thermostat lower limit|15.0°C|
 |```max_temperature```|PID climate thermostat upper limit|35.0°C|
-|```temperature_step```|PID climate thermostat minimum step|0.1°C|
+|```temperature_step```|PID climate thermostat minimum change|0.1°C|
+
+## PID controller parameters
+
+Finding and fine tuning the PID controller parameters can be a bit easier with a structured approach. I have had the best results with the [Ziegler-Nichols method](https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method) (Åström and Hägglund). Suggested reading on this topic is the [Principles of PID](https://blog.opticontrols.com/archives/344).
+
 
 [^1]: [PI Parameter Influence on Underfloor Heating Energy Consumption and Setpoint Tracking in nZEBs](https://www.mdpi.com/1996-1073/13/8/2068)
 [^2]: [Reglering, om P-, I-, D-bidraget](https://www.bastec.se/anvandarmanual/reglering-p-i-d-bidraget/)
