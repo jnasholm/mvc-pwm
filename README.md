@@ -88,11 +88,11 @@ The following parameters are configurable in the source code before compilation 
 
 Finding and fine tuning the PID controller parameters can be a bit easier with a structured approach. I have had the best results with the [Ziegler-Nichols method](https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method) (Åström and Hägglund). Suggested reading on this topic is the [Principles of PID](https://blog.opticontrols.com/archives/344).
 
-This is how the parameters for my current controller was calculated.
+This is how the parameters for my current controller was calculated. Work in progress and probably far from optimized.
 
 |Parameter|Value|Description or calculation|
-|----|----|----|
-|Sampling time, Ts|10s|Update interval of temperature sensor|
+|----|:----:|----|
+|Sampling time, Ts|10s|Update interval of the supply line temperature sensor|
 |Critical gain, Kc|2.0|Proportional constant causing oscillation|
 |Critical period, Pc|480s|Cycle time at oscillating condition|
 |Integral time, Ti|240s|0.50 x Pc|
