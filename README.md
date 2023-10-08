@@ -44,7 +44,7 @@ The actuator is run with a fixed 1 s pulse interval, which is quite fast for hyd
 ## Front-end configuration and control
 
 |Configuration and control|Description|Default|
-|----------------------------|----------------------------|-------------|
+|----------------------------|--------------------------------------|:------:|
 |**Actuator pulse interval**|Adjustable between 2 and 20 s. Decrease value to make the actuator faster in response, increase to make the actuator slower in response. Too small value can cause oscillation, too large value can cause over- or under-shoot of the set-point.|6 s|
 |**Controller mode**|Switch on for automatic mode, switch off for manual mode.|on|
 |**Outdoor temperature compensation**|Switch on for compensation, switch off for no compensation.|on|
@@ -56,7 +56,7 @@ The actuator is run with a fixed 1 s pulse interval, which is quite fast for hyd
 My controller set-up has the following temperature compensation set-points. Still experimenting and tweaking these during the autumn 2023 and winter 2024.
 
 |Point|Outdoor temperature|Target supply line temperature|
-|------|:------:|:------:|
+|:------:|:------:|:------:|
 |```p1```|-10|29.0|
 |```p2```|-5|26.8|
 |```p3```|0|25.0|
@@ -71,7 +71,7 @@ My controller set-up has the following temperature compensation set-points. Stil
 The following parameters are configurable in the source code of ```control-mixing_valve.yaml``` before compilation and upload to the controller.
 
 |Parameter|Value|Description|
-|------------------------|:----:|----------------------------------------|
+|--------------------|:----:|--------------------------------------------------|
 |```kp```|1.2|PID climate proportional control parameter|
 |```ki```|0.0041667|PID climate integral control parameter|
 |```kd```|6.0|PID climate derivative control parameter|
@@ -93,7 +93,7 @@ Finding and fine tuning the PID controller parameters can be a bit easier with a
 This is how the parameters for my current controller are calculated. Work in progress and probably far from optimized.
 
 |Parameter|Value|Description or calculation|
-|--------------------|:----:|----------------------------------------|
+|--------------------|:----:|--------------------------------------------------|
 |Sampling time, Ts|10s|Update interval of the supply line temperature sensor|
 |Critical gain, Kc|2.0|Proportional constant causing oscillation|
 |Critical period, Pc|480s|Cycle time at oscillating condition|
