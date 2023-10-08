@@ -49,7 +49,7 @@ The actuator is run with a fixed 1 s pulse interval, which is quite fast for hyd
 |**Controller mode**|Switch on for automatic mode, switch off for manual mode.|on|
 |**Outdoor temperature compensation**|Switch on for compensation, switch off for no compensation.|on|
 |**Position hold**|Switch on to enable actuator position hold, switch off to release actuator position hold.|off|
-|**Temperature compensation set-points**|Generally known as “heat curve”. A set of temperature points between which the target supply line temperature is calculated based on meassured outdoor temperature. Calculation principle is linear interpolation. Available points are p1 to p6.||
+|**Temperature compensation set-points**|Generally known as “heat curve”. A set of temperature points between which the target supply line temperature is calculated based on meassured outdoor temperature. Calculation principle is linear interpolation. Available points are p1 to p6.|[Table](#default-compensation-set-points)|
 
 ### Default compensation set-points
 
