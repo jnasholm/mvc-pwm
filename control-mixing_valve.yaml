@@ -151,11 +151,14 @@ sensor:
     id: active_supply_line_temperature
     accuracy_decimals: 2
     update_interval: 10s
+    filters:
+      - heartbeat: 10s
     lambda: |-
-      if ( id(${node_name}_supply_line_temperature_median).state > 0.0 )
-        return id(${node_name}_supply_line_temperature_median).state;
-      else
-        return id(${node_name}_supply_line_temperature).state;
+      return id(${node_name}_supply_line_temperature).state;
+#      if ( id(${node_name}_supply_line_temperature_median).state > 0.0 )
+#        return id(${node_name}_supply_line_temperature_median).state;
+#      else
+#        return id(${node_name}_supply_line_temperature).state;
   # Mixing valve actuator variable delay time
   #   Manual operation:         1s
   #   Automatic operation:      6s (mixing valve actuator variable delay setting)
