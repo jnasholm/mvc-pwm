@@ -40,6 +40,7 @@ sensor:
     unit_of_measurement: °C
     state_class: measurement
     accuracy_decimals: 2
+    update_interval: 10s
     lambda: return (id(${node_name}_supply_line_temperature).state);
     filters:
       - sliding_window_moving_average:
