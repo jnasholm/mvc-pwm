@@ -162,6 +162,12 @@ condition:
   - condition: state
     entity_id: switch.gvs_automatiskt_driftlage
     state: "on"
+  - condition: numeric_state
+    entity_id: sensor.gp_cirkulationspump
+    above: 0
+  - condition: numeric_state
+    entity_id: sensor.gp_driftlage
+    below: 20
 action:
   - service: switch.turn_off
     data: {}
