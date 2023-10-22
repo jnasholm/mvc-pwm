@@ -24,7 +24,7 @@ The controller is designed to be a drop-in replacement for the legacy UVEAB EVR-
 
 In the set-up of my smart controller the supply line temperature sensor is replaced with a modern digital temperature sensor. The existing outdoor temperature sensor is reused without modification. Also the mixing valve actuator is reused. The mixing valve actuator is an ESBE ARA600 operated as a reversible 24 VAC electric motor with 90° rotational travel in 120 s on the output shaft.
 
-The smart controller as two principal modes of operation, automatic and manual.
+The smart controller has two principal modes of operation, automatic and manual.
 
 ### Automatic mode
 This is the active state (1) for the actuator. The thermostat function is in effect and compensation based on outdoor temperature is performed. The actuator is operated completely based on parameter settings. The actuator is run with the pulse interval configured through the front-end.
