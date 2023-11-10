@@ -38,12 +38,13 @@ switch:
             - number.decrement:
                 id: ${node_name}_mixing_valve_position_counter
                 cycle: false
-            - component.update: ${node_name}_actuator_variable_delay
-            - delay: !lambda |-
-                if ( id(${node_name}_actuator_variable_delay).state >= 1000 )
-                  return id(${node_name}_actuator_variable_delay).state;
-                else
-                  return 6000;
+            - if:
+                condition:
+                  - switch.is_off: ${node_name}_controller_mode
+                then:
+                  - delay: 1s
+                else:
+                  - delay: 6s
     on_turn_off:
       - switch.turn_off: decrease_relay
 
@@ -62,12 +63,13 @@ switch:
             - number.increment:
                 id: ${node_name}_mixing_valve_position_counter
                 cycle: false
-            - component.update: ${node_name}_actuator_variable_delay
-            - delay: !lambda |-
-                if ( id(${node_name}_actuator_variable_delay).state >= 1000 )
-                  return id(${node_name}_actuator_variable_delay).state;
-                else
-                  return 6000;
+            - if:
+                condition:
+                  - switch.is_off: ${node_name}_controller_mode
+                then:
+                  - delay: 1s
+                else:
+                  - delay: 6s
     on_turn_off:
       - switch.turn_off: increase_relay
 
@@ -278,16 +280,16 @@ number:
     max_value: 240
     step: 1
     mode: slider
-  # Mixing valve actuator variable delay setting
-  - platform: template
-    name: $node_prefix paustid
-    id: ${node_name}_actuator_variable_delay_setting
-    icon: mdi:knob
-    unit_of_measurement: s
-    initial_value: 6
-    restore_value: true
-    optimistic: true
-    min_value: 2
-    max_value: 20
-    step: 1
-    mode: slider
+#  # Mixing valve actuator variable delay setting
+#  - platform: template
+#    name: $node_prefix paustid
+#    id: ${node_name}_actuator_variable_delay_setting
+#    icon: mdi:knob
+#    unit_of_measurement: s
+#    initial_value: 6
+#    restore_value: true
+#    optimistic: true
+#    min_value: 2
+#    max_value: 20
+#    step: 1
+#    mode: slider
