@@ -18,11 +18,11 @@ sensor:
     accuracy_decimals: 2
     update_interval: 20s
     lambda: |-
-      if ( id(outdoor_temperature_remote).state > 0.0 )
+      if ( id(outdoor_temperature_remote).state > -40.0 )
         return id(outdoor_temperature_remote).state;
-      if ( id(outdoor_temperature_analog).state > 0.0 )
+      if ( id(outdoor_temperature_analog).state > -40.0 )
         return id(outdoor_temperature_analog).state;
-      //if ( id(outdoor_temperature_digital).state > 0.0 )
+      //if ( id(outdoor_temperature_digital).state > -40.0 )
       //  return id(outdoor_temperature_digital).state;
       return 10.0;
 
