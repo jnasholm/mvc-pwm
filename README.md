@@ -17,7 +17,8 @@ Project to create a smart mixing valve actuator controller for private homes wit
 
 In case the floor heating controller needs the same upgrade: [ESP32 SSR Floor Heating Controller](https://github.com/jnasholm/fhc-pwm)
 
-**Note:** The controller hardware is theoretically capable of operating 110-230 VAC mixing valve actuators. This will however not be tested in the project.
+> [!NOTE]
+> The controller hardware is theoretically capable of operating 110-230 VAC mixing valve actuators. This will however not be tested in the project.
 
 ## Description
 The controller is designed to be a drop-in replacement for the legacy UVEAB EVR-CDR digital valve actuator controller. This controller has a classic outdoor temperature sensor EVR-U with a thermal resistor (NTC) to compensate the supply line temperature set-point. For closed loop feed-back to the controller another sensor EVR-F, also a thermal resistor (NTC), is attached to the supply line for the hydronic floor heating manifold. An indoor temperature sensor EVR-T was also available as an option but will not be covered here. The controller has four configurable operational parameter settings through manual potentiometers, heating gain curve, parallel curve displacement, actuator pulse interval, and night reduction. My controller had the gain set to 0.8, the displacement set to -2.5, pulse interval set to 20 s, and night reduction set to 0, when it was replaced with the smart controller.
