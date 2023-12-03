@@ -107,6 +107,20 @@ This is how the parameters for my current controller are calculated. Work in pro
 |Integral constant, ki|0.0041667|1/Ti|
 |Derivative constant, kd|6.0|Td/Ts|
 
+## Prototype
+
+![Prototype on experiment board](/images/prototype-experimentboard_1.png)
+<br>
+*Prototype wired on experiment board.*
+
+![Prototype in enclosure](/images/prototype-enclosure_1.png)
+<br>
+*Prototype in enclosure with status LEDs.*
+
+![Prototype installed](/images/prototype-installed_1.png)
+<br>
+*Prototype installed in DIN rail connection cabinet. Mixing valve controller on the right and [floor heating controller](https://github.com/jnasholm/fhc-pwm) on the left.*
+
 ## References
 
 [^1]: [PI Parameter Influence on Underfloor Heating Energy Consumption and Setpoint Tracking in nZEBs](https://www.mdpi.com/1996-1073/13/8/2068)
