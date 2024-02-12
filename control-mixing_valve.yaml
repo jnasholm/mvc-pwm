@@ -1,5 +1,10 @@
 # Mixing valve controller configuration
 
+# Pulse intervals with unit
+substitutions:
+  manual_pulse_interval: 1s
+  automatic_pulse_interval: 6s
+
 # Relay configuration
 switch:
   # Relay actuator decrease
@@ -42,9 +47,9 @@ switch:
                 condition:
                   - switch.is_off: ${node_name}_controller_mode
                 then:
-                  - delay: 1s
+                  - delay: ${manual_pulse_interval}
                 else:
-                  - delay: 6s
+                  - delay: ${automatic_pulse_interval}
     on_turn_off:
       - switch.turn_off: decrease_relay
 
@@ -67,9 +72,9 @@ switch:
                 condition:
                   - switch.is_off: ${node_name}_controller_mode
                 then:
-                  - delay: 1s
+                  - delay: ${manual_pulse_interval}
                 else:
-                  - delay: 6s
+                  - delay: ${automatic_pulse_interval}
     on_turn_off:
       - switch.turn_off: increase_relay
 
@@ -161,22 +166,6 @@ sensor:
 #        return id(${node_name}_supply_line_temperature_median).state;
 #      else
 #        return id(${node_name}_supply_line_temperature).state;
-  # Mixing valve actuator variable delay time
-  #   Manual operation:         1s
-  #   Automatic operation:      6s (mixing valve actuator variable delay setting)
-  - platform: template
-    id: ${node_name}_actuator_variable_delay
-    accuracy_decimals: 0
-    update_interval: never
-    lambda: |-
-      if ( id(mixing_valve_manual_decrease).state )
-        return 1000;
-      if ( id(mixing_valve_manual_increase).state )
-        return 1000;
-      if ( (id(${node_name}_controller_mode).state) &&
-           (id(${node_name}_actuator_variable_delay_setting).state >= 1) )
-        return id(${node_name}_actuator_variable_delay_setting).state * 1000;
-      return 12000;
   # Supply line modulation level decrease
   - platform: pid
     name: $node_prefix reglernivå minska
@@ -280,16 +269,3 @@ number:
     max_value: 240
     step: 1
     mode: slider
-#  # Mixing valve actuator variable delay setting
-#  - platform: template
-#    name: $node_prefix paustid
-#    id: ${node_name}_actuator_variable_delay_setting
-#    icon: mdi:knob
-#    unit_of_measurement: s
-#    initial_value: 6
-#    restore_value: true
-#    optimistic: true
-#    min_value: 2
-#    max_value: 20
-#    step: 1
-#    mode: slider
