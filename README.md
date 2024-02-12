@@ -18,6 +18,9 @@ Project to create a smart mixing valve actuator controller for private homes wit
 > [!TIP]
 > In case the floor heating controller needs the same upgrade: [ESP32 SSR Floor Heating Controller](https://github.com/jnasholm/fhc-pwm)
 
+> [!TIP]
+> New or additional outdoor temperature sensor: [ESP32 External Temperature Sensor](https://github.com/jnasholm/ets)
+
 > [!NOTE]
 > The controller hardware is theoretically capable of operating 110-230 VAC mixing valve actuators. This will however not be tested in the project.
 
