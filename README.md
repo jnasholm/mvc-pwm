@@ -75,7 +75,8 @@ The following parameters are configurable in the source code of ```control-mixin
 
 |Parameter|Value|Description|
 |--------------------|:----:|--------------------------------------------------|
-|```actuator_pulse_interval```|6 s|Actuator pulse interval, adjustable between 2 and 20 s. Decrease value to make the actuator faster in response, increase to make the actuator slower in response. Too small value can cause oscillation, too large value can cause over- or under-shoot of the set-point.|
+|```manual_pulse_interval```|1s|Manual mode actuator pulse interval, adjustable between 1 and 4 s.|
+|```automatic_pulse_interval```|6s|Automatic mode actuator pulse interval, adjustable between 2 and 20 s. Decrease value to make the actuator faster in response, increase to make the actuator slower in response. Too small value can cause oscillation, too large value can cause over- or under-shoot of the set-point.|
 |```kp```|1.2|PID climate proportional control parameter|
 |```ki```|0.0041667|PID climate integral control parameter|
 |```kd```|6.0|PID climate derivative control parameter|
