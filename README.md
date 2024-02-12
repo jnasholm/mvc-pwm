@@ -31,14 +31,14 @@ In the set-up of my smart controller the supply line temperature sensor is repla
 The smart controller has two principal modes of operation, automatic and manual. Chose the mode of operation from the front-end or through automations in Home Assistant.
 
 ### Automatic mode
-This is the active state (1) for the actuator. The thermostat function is in effect and compensation based on outdoor temperature is performed. The actuator is operated completely based on parameter settings. The actuator is run with the pulse interval configured through the front-end.
+This is the active state (1) for the actuator. The thermostat function is in effect and compensation based on outdoor temperature is performed. The actuator is operated completely based on parameter settings. The actuator is run with a fixed 6 s pulse interval.
 
 The actuator operation can be temporarily paused if necessary. This is the position hold state (4) for the actuator. No position adjustment of the actuator is performed. This function can be called from the front-end.
 
 One practical scenario is if the temperature on the mixing valve inlet is not enough above the temperature set-point for the supply line. The controllability of the supply line temperature will then be low to none, and increasing the actuator position is pointless. When enough positive temperature difference is achieved, then the position hold can be released from the front-end, and the controller resumes automatic operation.
 
 ### Semi-automatic mode
-This is the active state (2) for the actuator. The thermostat function is in effect but no compensation based on outdoor temperature is performed. The actuator is operated with a static set-point value through the front-end. The actuator is run with the pulse interval configured through the front-end.
+This is the active state (2) for the actuator. The thermostat function is in effect but no compensation based on outdoor temperature is performed. The actuator is operated with a static set-point value through the front-end. The actuator is run with a fixed 6 s pulse interval.
 
 ### Manual mode
 This is the idle state (0) for the actuator. No thermostat function is in effect and no compensation based on outdoor temperature is performed. The actuator is operated completely through manual switches, one for increasing the actuator position, one for decreasing the actuator position, and a stop button. When running this is the manual state (3) for the actuator.
@@ -49,7 +49,6 @@ The actuator is run with a fixed 1 s pulse interval, which is quite fast for hyd
 
 |Configuration and control|Description|Default|
 |----------------------------|--------------------------------------|:------:|
-|**Actuator pulse interval**|Adjustable between 2 and 20 s. Decrease value to make the actuator faster in response, increase to make the actuator slower in response. Too small value can cause oscillation, too large value can cause over- or under-shoot of the set-point.|6 s|
 |**Controller mode**|Switch on for automatic mode, switch off for manual mode.|on|
 |**Outdoor temperature compensation**|Switch on for compensation, switch off for no compensation.|on|
 |**Position hold**|Switch on to enable actuator position hold, switch off to release actuator position hold.|off|
@@ -76,6 +75,7 @@ The following parameters are configurable in the source code of ```control-mixin
 
 |Parameter|Value|Description|
 |--------------------|:----:|--------------------------------------------------|
+|```actuator_pulse_interval```|6 s|Actuator pulse interval, adjustable between 2 and 20 s. Decrease value to make the actuator faster in response, increase to make the actuator slower in response. Too small value can cause oscillation, too large value can cause over- or under-shoot of the set-point.|
 |```kp```|1.2|PID climate proportional control parameter|
 |```ki```|0.0041667|PID climate integral control parameter|
 |```kd```|6.0|PID climate derivative control parameter|
