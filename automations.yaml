@@ -62,6 +62,9 @@ condition:
   - condition: state
     entity_id: switch.gvs_automatiskt_driftlage
     state: "off"
+  - condition: state
+    entity_id: binary_sensor.gvr_cirkulationspump_aktiv
+    state: "on"
 action:
   - service: switch.turn_on
     data: {}
