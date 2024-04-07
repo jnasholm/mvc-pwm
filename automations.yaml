@@ -29,29 +29,8 @@ trigger:
   - platform: state
     entity_id:
       - binary_sensor.duschrum_aktiv
-    to: "on"
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 20
-  - platform: state
-    entity_id:
       - binary_sensor.hall_aktiv
-    to: "on"
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 20
-  - platform: state
-    entity_id:
       - binary_sensor.kok_aktiv
-    to: "on"
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 20
-  - platform: state
-    entity_id:
       - binary_sensor.vardagsrum_aktiv
     to: "on"
     for:
@@ -65,6 +44,9 @@ condition:
   - condition: state
     entity_id: binary_sensor.gvr_cirkulationspump_aktiv
     state: "on"
+  - condition: numeric_state
+    entity_id: sensor.gp_cirkulationspump
+    above: 0.01
 action:
   - service: switch.turn_on
     data: {}
@@ -130,6 +112,9 @@ trigger:
       seconds: 0
 condition:
   - condition: state
+    entity_id: switch.gvs_lageshallning
+    state: "off"
+  - condition: state
     entity_id: switch.gvs_automatiskt_driftlage
     state: "on"
 action:
@@ -163,14 +148,17 @@ trigger:
       seconds: 20
 condition:
   - condition: state
+    entity_id: switch.gvs_lageshallning
+    state: "on"
+  - condition: state
     entity_id: switch.gvs_automatiskt_driftlage
     state: "on"
   - condition: numeric_state
-    entity_id: sensor.gp_cirkulationspump
-    above: 0
-  - condition: numeric_state
     entity_id: sensor.gp_driftlage
     below: 20
+  - condition: numeric_state
+    entity_id: sensor.gp_cirkulationspump
+    above: 0.01
 action:
   - service: switch.turn_off
     data: {}
