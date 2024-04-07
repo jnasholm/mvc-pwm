@@ -64,9 +64,9 @@ My controller set-up has the following temperature compensation set-points. Stil
 |Point|Outdoor temperature|Target supply line temperature|
 |:------:|:------:|:------:|
 |```p1```|-10|29.0|
-|```p2```|-5|26.8|
-|```p3```|0|25.0|
-|```p4```|5|23.8|
+|```p2```|-5|27.2|
+|```p3```|0|25.6|
+|```p4```|5|24.2|
 |```p5```|10|23.0|
 |```p6```|20|22.0|
 
