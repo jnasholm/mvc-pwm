@@ -2,26 +2,35 @@
 alias: Golvvärme blandningsventil automatiskt driftläge
 description: ""
 trigger:
-  - platform: numeric_state
-    entity_id: sensor.gp_driftlage
-    for:
-      hours: 0
-      minutes: 2
-      seconds: 0
-    below: 20
-    enabled: true
-  - platform: state
-    entity_id:
-      - sensor.gp_cirkulationspump
-    for:
-      hours: 0
-      minutes: 0
-      seconds: 20
-    from: "0"
   - platform: state
     entity_id:
       - binary_sensor.gvr_cirkulationspump_aktiv
     to: "on"
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 20
+  - platform: numeric_state
+    entity_id:
+      - sensor.gp_driftlage
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 20
+    below: 8
+    above: 0
+  - platform: state
+    entity_id:
+      - sensor.gp_driftlage
+    to: "7"
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 20
+  - platform: state
+    entity_id:
+      - sensor.gp_cirkulationspump
+    from: "0"
     for:
       hours: 0
       minutes: 0
@@ -35,8 +44,8 @@ trigger:
     to: "on"
     for:
       hours: 0
-      minutes: 0
-      seconds: 20
+      minutes: 2
+      seconds: 0
 condition:
   - condition: state
     entity_id: switch.gvs_automatiskt_driftlage
@@ -45,14 +54,18 @@ condition:
     entity_id: binary_sensor.gvr_cirkulationspump_aktiv
     state: "on"
   - condition: numeric_state
+    entity_id: sensor.gp_driftlage
+    above: 0
+    below: 8
+  - condition: numeric_state
     entity_id: sensor.gp_cirkulationspump
-    above: 0.01
+    above: 0
 action:
   - service: switch.turn_on
     data: {}
     target:
       entity_id: switch.gvs_automatiskt_driftlage
-  - service: notify.mobile_app_my_iphone
+  - service: notify.mobile_app_my_phone
     data:
       message: GVS automatiskt driftläge ({{ states('sensor.gp_driftlage') }}).
 mode: single
@@ -77,6 +90,14 @@ trigger:
       hours: 0
       minutes: 2
       seconds: 0
+  - platform: state
+    entity_id:
+      - sensor.gp_cirkulationspump
+    to: "0"
+    for:
+      hours: 0
+      minutes: 4
+      seconds: 0
 condition:
   - condition: state
     entity_id: switch.gvs_automatiskt_driftlage
@@ -86,7 +107,7 @@ action:
     data: {}
     target:
       entity_id: switch.gvs_automatiskt_driftlage
-  - service: notify.mobile_app_my_iphone
+  - service: notify.mobile_app_my_phone
     data:
       message: GVS manuellt driftläge ({{ states('sensor.gp_driftlage') }}).
 mode: single
@@ -95,21 +116,22 @@ mode: single
 alias: Golvvärme blandningsventil lägeshållning aktivera
 description: ""
 trigger:
+  - platform: state
+    entity_id:
+      - sensor.gp_driftlage
+    to: "0"
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
   - platform: numeric_state
-    entity_id: sensor.gp_driftlage
+    entity_id:
+      - sensor.gp_driftlage
     for:
       hours: 0
       minutes: 0
       seconds: 20
-    above: 20
-  - platform: state
-    entity_id:
-      - sensor.gp_cirkulationspump
-    to: "0"
-    for:
-      hours: 0
-      minutes: 4
-      seconds: 0
+    above: 7
 condition:
   - condition: state
     entity_id: switch.gvs_lageshallning
@@ -122,7 +144,7 @@ action:
     data: {}
     target:
       entity_id: switch.gvs_lageshallning
-  - service: notify.mobile_app_my_iphone
+  - service: notify.mobile_app_my_phone
     data:
       message: GVS lägeshållning aktiverad ({{ states('sensor.gp_driftlage') }}).
 mode: single
@@ -132,16 +154,18 @@ alias: Golvvärme blandningsventil lägeshållning inaktivera
 description: ""
 trigger:
   - platform: numeric_state
-    entity_id: sensor.gp_driftlage
+    entity_id:
+      - sensor.gp_driftlage
     for:
       hours: 0
       minutes: 2
       seconds: 0
-    below: 20
+    below: 8
+    above: 0
   - platform: state
     entity_id:
-      - sensor.gp_cirkulationspump
-    from: "0"
+      - sensor.gp_driftlage
+    to: "7"
     for:
       hours: 0
       minutes: 0
@@ -153,18 +177,48 @@ condition:
   - condition: state
     entity_id: switch.gvs_automatiskt_driftlage
     state: "on"
-  - condition: numeric_state
-    entity_id: sensor.gp_driftlage
-    below: 20
+  - condition: state
+    entity_id: binary_sensor.gvr_cirkulationspump_aktiv
+    state: "on"
   - condition: numeric_state
     entity_id: sensor.gp_cirkulationspump
-    above: 0.01
+    above: 0
 action:
   - service: switch.turn_off
     data: {}
     target:
       entity_id: switch.gvs_lageshallning
-  - service: notify.mobile_app_my_iphone
+  - service: notify.mobile_app_my_phone
     data:
       message: GVS lägeshållning inaktiverad ({{ states('sensor.gp_driftlage') }}).
+mode: single
+
+# Monitor controllable state condition
+alias: Golvvärme blandningsventil övervaka reglerbart läge
+description: ""
+trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.gvs_reglerbart_lage
+    from: "on"
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+  - platform: state
+    entity_id:
+      - binary_sensor.gvs_reglerbart_lage
+    from: "off"
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+condition:
+  - condition: state
+    entity_id: switch.gvs_automatiskt_driftlage
+    state: "on"
+action:
+  - service: notify.mobile_app_my_phone
+    data:
+      message: GVS reglerbart läge ({{ states('binary_sensor.gvs_reglerbart_lage') }}).
 mode: single
