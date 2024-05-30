@@ -240,11 +240,15 @@ sensor:
         sl_2 = id(supply_temp_p5).state;
       }
       /* Linear interpolation points (p5,p6) */
-      if ( temp_od >= id(outdoor_temp_p5).state ) {
+      if ( (temp_od >= id(outdoor_temp_p5).state) && (temp_od < id(outdoor_temp_p6).state) ) {
         od_1 = id(outdoor_temp_p5).state;
         od_2 = id(outdoor_temp_p6).state;
         sl_1 = id(supply_temp_p5).state;
         sl_2 = id(supply_temp_p6).state;
+      }
+      /* Constant supply line temperature (p6 and above) */
+      if ( temp_od >= id(outdoor_temp_p6).state ) {
+        temp_sl = id(supply_temp_p6).state;
       }
       /* Linear interpolation calculation */
       if ( od_2 - od_1 > 0 )
