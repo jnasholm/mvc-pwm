@@ -247,9 +247,8 @@ sensor:
         sl_2 = id(supply_temp_p6).state;
       }
       /* Constant supply line temperature (p6 and above) */
-      if ( temp_od >= id(outdoor_temp_p6).state ) {
-        temp_sl = id(supply_temp_p6).state;
-      }
+      if ( temp_od >= id(outdoor_temp_p6).state )
+        return temp_sl = id(supply_temp_p6).state;
       /* Linear interpolation calculation */
       if ( od_2 - od_1 > 0 )
         temp_sl = sl_1 + (sl_2 - sl_1)/(od_2 - od_1) * (temp_od - od_1);
