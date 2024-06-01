@@ -209,8 +209,8 @@ sensor:
                 target_temperature: !lambda return x;
     lambda: |-
       float temp_od = id(outdoor_temperature).state;
-      float temp_sl;
-      float od_1, od_2, sl_1, sl_2;
+      float temp_sl = 0;
+      float od_1 = 0, od_2 = 0, sl_1 = 0, sl_2 = 0;
       /* Linear interpolation points (p1,p2) */
       if ( temp_od < id(outdoor_temp_p2).state ) {
         od_1 = id(outdoor_temp_p1).state;
@@ -248,7 +248,7 @@ sensor:
       }
       /* Constant supply line temperature (p6 and above) */
       if ( temp_od >= id(outdoor_temp_p6).state )
-        return temp_sl = id(supply_temp_p6).state;
+        temp_sl = id(supply_temp_p6).state;
       /* Linear interpolation calculation */
       if ( od_2 - od_1 > 0 )
         temp_sl = sl_1 + (sl_2 - sl_1)/(od_2 - od_1) * (temp_od - od_1);
