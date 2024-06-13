@@ -132,6 +132,14 @@ trigger:
       minutes: 0
       seconds: 20
     above: 7
+  - platform: state
+    entity_id:
+      - binary_sensor.gvs_reglerbart_lage
+    to: "off"
+    for:
+      hours: 0
+      minutes: 8
+      seconds: 0
 condition:
   - condition: state
     entity_id: switch.gvs_lageshallning
