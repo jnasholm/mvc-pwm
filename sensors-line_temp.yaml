@@ -1,6 +1,9 @@
 # Line temperature sensor configuration
 
 # Input configuration line temperatures
+#one_wire:
+#  - platform: gpio
+#    pin: GPIO27
 dallas:
   - pin: GPIO27
     id: line_temperature_bus
@@ -9,6 +12,7 @@ dallas:
 # Floor heating distributor temperatures
 sensor:
   # Supply line temperature
+#  - platform: dallas_temp
   - platform: dallas
     name: $node_prefix tillopp
     id: ${node_name}_supply_line_temperature
@@ -17,6 +21,7 @@ sensor:
     resolution: 12
     accuracy_decimals: 2
   # Return line temperature
+#  - platform: dallas_temp
   - platform: dallas
     name: $node_prefix retur
     id: ${node_name}_return_line_temperature
@@ -25,6 +30,7 @@ sensor:
     resolution: 12
     accuracy_decimals: 2
   # Mixing line temperature
+#  - platform: dallas_temp
   - platform: dallas
     name: $node_prefix blandning
     id: ${node_name}_mixing_line_temperature
@@ -50,13 +56,13 @@ sensor:
       - heartbeat: 10s
 
 ## Heat source supply and return lines
-#  - platform: dallas
+#  - platform: dallas_temp
 #    name: $node_prefix framledning
 #    id: ${node_name}_supply_line_temperature
 #    dallas_id: line_temperature_bus
 #    address: 0x7400000CAE1E8328
 #    resolution: 12
-#  - platform: dallas
+#  - platform: dallas_temp
 #    name: $node_prefix returledning
 #    id: ${node_name}_return_line_temperature
 #    dallas_id: line_temperature_bus
