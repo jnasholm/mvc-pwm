@@ -31,7 +31,7 @@ In the set-up of my smart controller the supply line temperature sensor is repla
 
 ## Controller function
 
-The smart controller has two principal modes of operation, automatic and manual. Chose the mode of operation from the front-end or through automations in Home Assistant.
+The smart controller has three principal modes of operation, automatic, semi-automatic and manual. Chose the mode of operation from the front-end or through automations in Home Assistant.
 
 ### Automatic mode
 This is the active state (1) for the actuator. The thermostat function is in effect and compensation based on outdoor temperature is performed. The actuator is operated completely based on parameter settings. The actuator is run with a fixed 6 s pulse interval.
