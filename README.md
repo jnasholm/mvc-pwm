@@ -70,7 +70,8 @@ My controller set-up has the following temperature compensation set-points. Stil
 |```p5```|10|23.0|
 |```p6```|20|22.0|
 
-*All temperatures in °C.*
+> [!NOTE]
+> All temperatures are entered in °C.
 
 ## Static controller configuration parameters
 
