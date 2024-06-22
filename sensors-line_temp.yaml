@@ -16,6 +16,7 @@ sensor:
   - platform: dallas
     name: $node_prefix tillopp
     id: ${node_name}_supply_line_temperature
+#    one_wire_id: line_temperature_bus
     dallas_id: line_temperature_bus
     address: 0xfb00000e17852028
     resolution: 12
@@ -25,6 +26,7 @@ sensor:
   - platform: dallas
     name: $node_prefix retur
     id: ${node_name}_return_line_temperature
+#    one_wire_id: line_temperature_bus
     dallas_id: line_temperature_bus
     address: 0xd000000e17e5ce28
     resolution: 12
@@ -34,6 +36,7 @@ sensor:
   - platform: dallas
     name: $node_prefix blandning
     id: ${node_name}_mixing_line_temperature
+#    one_wire_id: line_temperature_bus
     dallas_id: line_temperature_bus
     address: 0x3400000e6129a928
     resolution: 12
@@ -59,12 +62,12 @@ sensor:
 #  - platform: dallas_temp
 #    name: $node_prefix framledning
 #    id: ${node_name}_supply_line_temperature
-#    dallas_id: line_temperature_bus
+#    one_wire_id: line_temperature_bus
 #    address: 0x7400000CAE1E8328
 #    resolution: 12
 #  - platform: dallas_temp
 #    name: $node_prefix returledning
 #    id: ${node_name}_return_line_temperature
-#    dallas_id: line_temperature_bus
+#    one_wire_id: line_temperature_bus
 #    address: 0x1200000CA4CD1728
 #    resolution: 12
