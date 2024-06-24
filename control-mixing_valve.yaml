@@ -248,13 +248,12 @@ binary_sensor:
     filters:
       - delayed_on_off: 400ms
     lambda: |-
-      if ( id(${node_name}_controller_mode).state ) {
         float temp_target = id(${node_name}_supply_line_target_temperature).state;
-        float temp_supply = id(${node_name}_supply_line_temperature).state;
-        if ( (temp_supply - temp_target) >= 0.4 )
+        float temp_mixing = id(${node_name}_mixing_line_temperature).state;
+        if ( temp_mixing - temp_target >= 0.4 )
           return true;
-      }
-      return false;
+        else
+          return false;
 
 # Mixing valve actuator numbers
 number:
