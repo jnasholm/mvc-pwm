@@ -198,13 +198,10 @@ binary_sensor:
     filters:
       - delayed_on_off: 400ms
     lambda: |-
-      if ( id(${node_name}_controller_mode).state ) {
-        if ( id(${node_name}_supply_line_modulation_level_decrease).state > 0.0 )
-          return true;
-      } else {
-        if ( id(mixing_valve_manual_decrease).state )
-          return true;
-      }
+      if ( id(${node_name}_supply_line_modulation_level_decrease).state > 0.0 )
+        return true;
+      if ( id(mixing_valve_manual_decrease).state )
+        return true;
       return false;
   # Neutral
   - platform: template
@@ -214,15 +211,12 @@ binary_sensor:
     filters:
       - delayed_on_off: 400ms
     lambda: |-
-      if ( id(${node_name}_controller_mode).state ) {
-        if ( (id(${node_name}_supply_line_modulation_level_decrease).state <= 4.0) && 
-             (id(${node_name}_supply_line_modulation_level_increase).state <= 4.0) )
-          return true;
-      } else {
-        if ( (id(mixing_valve_manual_decrease).state == 0) &&
-             (id(mixing_valve_manual_increase).state == 0) )
-          return true;
-      }
+      if ( (id(${node_name}_supply_line_modulation_level_decrease).state <= 4.0) && 
+           (id(${node_name}_supply_line_modulation_level_increase).state <= 4.0) )
+        return true;
+      if ( (id(mixing_valve_manual_decrease).state == 0) &&
+           (id(mixing_valve_manual_increase).state == 0) )
+        return true;
       return false;
   # Increase
   - platform: template
@@ -232,13 +226,10 @@ binary_sensor:
     filters:
       - delayed_on_off: 400ms
     lambda: |-
-      if ( id(${node_name}_controller_mode).state ) {
-        if ( id(${node_name}_supply_line_modulation_level_increase).state > 0.0 )
-          return true;
-      } else {
-        if ( id(mixing_valve_manual_increase).state )
-          return true;
-      }
+      if ( id(${node_name}_supply_line_modulation_level_increase).state > 0.0 )
+        return true;
+      if ( id(mixing_valve_manual_increase).state )
+        return true;
       return false;
   # Controllable condition
   - platform: template
