@@ -187,6 +187,20 @@ sensor:
     id: ${node_name}_supply_line_controller_term_d
     climate_id: ${node_name}_supply_line_controller
     type: DERIVATIVE
+  # Mixing valve actuator position 0-120 pulses
+  - platform: template
+    name: $node_prefix ventilläge
+    id: ${node_name}_mixing_valve_position
+    icon: mdi:pipe-valve
+    unit_of_measurement: %
+    state_class: measurement
+    accuracy_decimals: 1
+    lambda: |-
+      float vpc = id(${node_name}_mixing_valve_position_counter).state;
+      float vpr = 0.0;
+      if ( vpc > 0 )
+        vpr = 100/120 * vpc;
+      return vpr;
 
 # Mixing valve actuator operational indicators
 binary_sensor:
