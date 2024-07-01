@@ -192,7 +192,7 @@ sensor:
     name: $node_prefix ventilläge
     id: ${node_name}_mixing_valve_position
     icon: mdi:pipe-valve
-    unit_of_measurement: %
+    unit_of_measurement: '%'
     state_class: measurement
     accuracy_decimals: 1
     lambda: |-
