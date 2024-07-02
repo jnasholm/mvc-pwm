@@ -196,11 +196,9 @@ sensor:
     state_class: measurement
     accuracy_decimals: 1
     lambda: |-
-      float vpc = id(${node_name}_mixing_valve_position_counter).state;
-      float vpr = 0.0;
-      if ( vpc > 0 )
-        vpr = 100/120 * vpc;
-      return vpr;
+      float valve_pos_c = id(${node_name}_mixing_valve_position_counter).state;
+      float valve_pos_r = valve_pos_c * 100.0/120.0;
+      return valve_pos_r;
 
 # Mixing valve actuator operational indicators
 binary_sensor:
@@ -278,3 +276,6 @@ number:
     max_value: 240
     step: 1
     mode: slider
+    on_value:
+      then:
+        - component.update: ${node_name}_mixing_valve_position
