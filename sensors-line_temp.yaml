@@ -51,6 +51,20 @@ sensor:
           window_size: 15
           send_every: 1
       - heartbeat: 10s
+  # Supply and return line temperature difference
+  - platform: template
+    name: $node_prefix värmebehov
+    id: ${node_name}_line_temperature_difference
+    icon: mdi:thermometer
+    unit_of_measurement: °C
+    device_class: temperature
+    state_class: measurement
+    accuracy_decimals: 1
+    update_interval: 10s
+    lambda: |-
+      float sl_temp = id(${node_name}_supply_line_temperature).state;
+      float rl_temp = id(${node_name}_return_line_temperature).state;
+      return sl_temp - rl_temp;
 
 ## Heat source supply and return lines
 #  - platform: dallas_temp
