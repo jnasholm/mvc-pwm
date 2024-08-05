@@ -4,6 +4,7 @@
 one_wire:
   - platform: gpio
     pin: GPIO27
+    #pin: GPIO25
     id: line_temperature_bus
 
 # Floor heating distributor temperatures
