@@ -49,7 +49,7 @@ sensor:
     lambda: return (id(${node_name}_supply_line_temperature).state);
     filters:
       - sliding_window_moving_average:
-          window_size: 15
+          window_size: 720  # 2 hours
           send_every: 1
       - heartbeat: 10s
   # Supply and return line temperature difference
