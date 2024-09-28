@@ -3,7 +3,8 @@
 # Pulse intervals with unit
 substitutions:
   manual_pulse_interval: 1s
-  automatic_pulse_interval: 6s
+  automatic_pulse_interval_increase: 6s
+  automatic_pulse_interval_decrease: 12s
 
 # Relay configuration
 switch:
@@ -51,7 +52,7 @@ switch:
                 then:
                   - delay: ${manual_pulse_interval}
                 else:
-                  - delay: ${automatic_pulse_interval}
+                  - delay: ${automatic_pulse_interval_decrease}
     on_turn_off:
       - switch.turn_off: decrease_relay
 
@@ -76,7 +77,7 @@ switch:
                 then:
                   - delay: ${manual_pulse_interval}
                 else:
-                  - delay: ${automatic_pulse_interval}
+                  - delay: ${automatic_pulse_interval_increase}
     on_turn_off:
       - switch.turn_off: increase_relay
 
