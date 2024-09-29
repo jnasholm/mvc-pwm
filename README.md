@@ -14,6 +14,7 @@ Project to create a smart mixing valve actuator controller for private homes wit
 - Line temperature sensors are digital [DS18B20](https://www.energibutiken.se/sv/dallas-1-wire-givare/10-dallas-1-wire-pro-rorgivare-02006.html) sensors.
 - Outdoor temperature sensor is either an analog [NTC](https://en.wikipedia.org/wiki/Thermistor) or a digital [DS18B20](https://www.energibutiken.se/sv/dallas-1-wire-givare/24-dallas-1-wire-pro-utegivare-02002.html).
 - Integration with [Home Assistant](https://www.home-assistant.io/) is recommended. Sensor data and configuration parameters can be imported to operate the controller.
+- Direct communication between ESP nodes through the network broadcast [UDP Component](https://esphome.io/components/udp) in ESPHome from version 2024.9.
 
 > [!TIP]
 > In case the floor heating controller needs the same upgrade: [ESP32 SSR Floor Heating Controller](https://github.com/jnasholm/fhc-pwm)
