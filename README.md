@@ -49,6 +49,15 @@ This is the idle state (0) for the actuator. No thermostat function is in effect
 
 The actuator is run with a fixed 1 s pulse interval, which is quite fast for hydronic floor heating systems. This can be used to quickly reposition the actuator if it has reached an unexpected or extreme position for some reason. During the initial configuration and adjustment of the control parameters, sometimes you accidentally end up with a severely oscillating, fully open, or fully closed, actuator position. Switch to manual mode to regain some form of steady state, reconfigure and try again.
 
+### Controller block diagram
+
+```mermaid
+flowchart TD
+    A[Outdoor Temperature]==>B[Mixing Valve Controller]
+    C[Supply Line Temperature]==>B
+    B==>D[Valve Actuator]
+```
+
 ## Front-end configuration and control
 
 |Configuration and control|Description|Default|
@@ -73,15 +82,6 @@ My controller set-up has the following temperature compensation set-points. Stil
 
 > [!NOTE]
 > All temperatures are entered in °C.
-
-### Controller block diagram
-
-```mermaid
-flowchart TD
-    A[Outdoor Temperature]-->B[Mixing Valve Controller]
-    C[Supply line temperature]-->B
-    B-->D[Valve Actuator]
-```
 
 ## Static controller configuration parameters
 
