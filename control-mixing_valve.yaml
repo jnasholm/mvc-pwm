@@ -3,8 +3,7 @@
 # Pulse intervals with unit
 substitutions:
   manual_pulse_interval: 1s
-  automatic_pulse_interval_increase: 6s
-  automatic_pulse_interval_decrease: 12s
+  automatic_update_interval: 6s
 
 # Relay configuration
 switch:
@@ -52,7 +51,7 @@ switch:
                 then:
                   - delay: ${manual_pulse_interval}
                 else:
-                  - delay: ${automatic_pulse_interval_decrease}
+                  - delay: ${automatic_update_interval}
     on_turn_off:
       - switch.turn_off: decrease_relay
 
@@ -77,7 +76,7 @@ switch:
                 then:
                   - delay: ${manual_pulse_interval}
                 else:
-                  - delay: ${automatic_pulse_interval_increase}
+                  - delay: ${automatic_update_interval}
     on_turn_off:
       - switch.turn_off: increase_relay
 
@@ -85,7 +84,7 @@ switch:
 output:
   # Mixing valve actuator decrease
   - platform: sigma_delta_output
-    update_interval: 6s
+    update_interval: ${automatic_update_interval}
     id: ${node_name}_actuator_modulation_decrease
     max_power: 0.4
     min_power: 0.0
@@ -100,7 +99,7 @@ output:
             id(${node_name}_mixing_valve_actuator_decrease).turn_off();
   # Mixing valve actuator increase
   - platform: sigma_delta_output
-    update_interval: 6s
+    update_interval: ${automatic_update_interval}
     id: ${node_name}_actuator_modulation_increase
     max_power: 0.4
     min_power: 0.0
