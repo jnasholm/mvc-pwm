@@ -74,6 +74,15 @@ My controller set-up has the following temperature compensation set-points. Stil
 > [!NOTE]
 > All temperatures are entered in °C.
 
+### Controller block diagram
+
+```mermaid
+flowchart TD
+    A[Outdoor Temperature]-->B[Mixing Valve Controller]
+    C[Supply line temperature]-->B
+    B-->D[Valve Actuator]
+```
+
 ## Static controller configuration parameters
 
 The following parameters are configurable in the source code of ```control-mixing_valve.yaml``` before compilation and upload to the controller.
