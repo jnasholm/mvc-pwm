@@ -3,7 +3,7 @@
 # Pulse intervals with unit
 substitutions:
   manual_pulse_interval: 1s
-  automatic_update_interval: 6s
+  automatic_update_interval: 4s
 
 # Relay configuration
 switch:
@@ -16,7 +16,7 @@ switch:
       #number: GPIO16
       inverted: true
     on_turn_on:
-      - delay: 400ms
+      - delay: 200ms
       - switch.turn_off: decrease_relay
   # Relay actuator increase
   - platform: gpio
@@ -27,7 +27,7 @@ switch:
       #number: GPIO17
       inverted: true
     on_turn_on:
-      - delay: 400ms
+      - delay: 200ms
       - switch.turn_off: increase_relay
 
   # Mixing valve actuator decrease
@@ -189,7 +189,7 @@ sensor:
     id: ${node_name}_supply_line_controller_term_d
     climate_id: ${node_name}_supply_line_controller
     type: DERIVATIVE
-  # Mixing valve actuator position 0-120 pulses
+  # Mixing valve actuator position 0-240 pulses
   - platform: template
     name: $node_prefix ventilläge
     id: ${node_name}_mixing_valve_position
@@ -199,7 +199,7 @@ sensor:
     accuracy_decimals: 1
     lambda: |-
       float valve_pos_c = id(${node_name}_mixing_valve_position_counter).state;
-      float valve_pos_r = valve_pos_c * 100.0/120.0;
+      float valve_pos_r = valve_pos_c * 100.0/240.0;
       return valve_pos_r;
 
 # Mixing valve actuator operational indicators
