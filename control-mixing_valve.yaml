@@ -117,15 +117,15 @@ output:
 
 # Supply line temperature controller
 #   Sampling time, Ts:      10 s (update interval of temperature sensor)
-#   Critical gain, Kc:       2.0 (proportional constant causing oscillation)
-#   Critical period, Pc:   480 s (cycle time at oscillating condition)
+#   Critical gain, Kc:       1.5 (proportional constant causing oscillation)
+#   Critical period, Pc:   320 s (cycle time at oscillating condition)
 # Calculated parameters  
-#   Integral time, Ti:     240 s (0.50 x Pc)
-#   Derivative time, Td:    60 s (0.25 x Ti)
+#   Integral time, Ti:     160 s (0.50 x Pc)
+#   Derivative time, Td:    40 s (0.25 x Ti)
 # Controller parameters
-#   Proportional constant, kp:   1.2       (0.60 x Kc)
-#   Integral constant, ki:       0.0041667 (1/Ti)
-#   Derivative constant, kd:     6.0       (Td/Ts)
+#   Proportional constant, kp:   0.9       (0.60 x Kc)
+#   Integral constant, ki:       0.0062500 (1/Ti)
+#   Derivative constant, kd:     4.0       (Td/Ts)
 climate:
   - platform: pid
     name: $node_prefix framledningsreglering
@@ -137,9 +137,9 @@ climate:
     on_control:
       - climate.pid.reset_integral_term: ${node_name}_supply_line_controller
     control_parameters:
-      kp: 1.2
-      ki: 0.0041667
-      kd: 6.0
+      kp: 0.9
+      ki: 0.0062500
+      kd: 4.0
       output_averaging_samples: 3
       derivative_averaging_samples: 5
     deadband_parameters:
