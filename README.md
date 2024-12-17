@@ -91,9 +91,9 @@ The following parameters are configurable in the source code of ```control-mixin
 |--------------------|:----:|--------------------------------------------------|
 |```manual_pulse_interval```|1s|Manual mode actuator pulse interval, adjustable between 1 and 4 s.|
 |```automatic_update_interval```|4s|Automatic mode actuator update interval, adjustable between 2 and 20 s. Decrease value to make the actuator faster in response, increase to make the actuator slower in response. Too small value can cause oscillation, too large value can cause over- or under-shoot of the set-point.|
-|```kp```|1.2|PID climate proportional control parameter|
-|```ki```|0.0041667|PID climate integral control parameter|
-|```kd```|6.0|PID climate derivative control parameter|
+|```kp```|0.9|PID climate proportional control parameter|
+|```ki```|0.0062500|PID climate integral control parameter|
+|```kd```|4.0|PID climate derivative control parameter|
 |```output_averaging_samples```|3|PID climate output averaging|
 |```derivative_averaging_samples```|5|PID climate derivative averaging|
 |```threshold_high```|0.16°C|PID climate deadband upper limit|
@@ -110,6 +110,21 @@ The following parameters are configurable in the source code of ```control-mixin
 Finding and fine tuning the PID controller parameters can be a bit easier with a structured approach. I have had the best results with the [Ziegler-Nichols method](https://en.wikipedia.org/wiki/Ziegler%E2%80%93Nichols_method) (Åström and Hägglund). Suggested reading on this topic is the [Principles of PID](https://blog.opticontrols.com/archives/344).
 
 This is how the parameters for my current controller are calculated. Work in progress and probably far from optimized.
+
+### Winter season 2024-2025
+
+|Parameter|Value|Description or calculation|
+|--------------------|:----:|--------------------------------------------------|
+|Sampling time, Ts|10 s|Update interval of the supply line temperature sensor|
+|Critical gain, Kc|1.5|Proportional constant causing oscillation|
+|Critical period, Pc|320 s|Cycle time at oscillating condition|
+|Integral time, Ti|160 s|0.50 x Pc|
+|Derivative time, Td|40 s|0.25 x Ti|
+|Proportional constant, kp|0.9|0.60 x Kc|
+|Integral constant, ki|0.0062500|1/Ti|
+|Derivative constant, kd|4.0|Td/Ts|
+
+### Winter season 2023-2024
 
 |Parameter|Value|Description or calculation|
 |--------------------|:----:|--------------------------------------------------|
