@@ -12,8 +12,7 @@ switch:
     id: decrease_relay
     interlock: [ increase_relay ]
     pin:
-      number: GPIO25
-      #number: GPIO16
+      number: $relay_decrease_pin
       inverted: true
     on_turn_on:
       - delay: 200ms
@@ -23,8 +22,7 @@ switch:
     id: increase_relay
     interlock: [ decrease_relay ]
     pin:
-      number: GPIO26
-      #number: GPIO17
+      number: $relay_increase_pin
       inverted: true
     on_turn_on:
       - delay: 200ms
