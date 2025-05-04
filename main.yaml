@@ -15,6 +15,8 @@ esphome:
     name: "jnasholm.mvc-pwm"
     version: "0.3"
   name: $node_name
+  friendly_name: Mixing Valve Controller
+  min_version: 2025.4.0
 
 # Flash write interval
 preferences:
