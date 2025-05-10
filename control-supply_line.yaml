@@ -11,7 +11,7 @@ esphome:
 switch:
   # Operational mode
   - platform: template
-    name: $node_prefix tillopp utetemperaturkompensering
+    name: Tillopp utetemperaturkompensering
     id: ${node_name}_outdoor_temp_compensated_mode
     icon: mdi:thermometer-auto
     restore_mode: ALWAYS_ON
@@ -29,7 +29,7 @@ switch:
 # Supply line temperature definition points, p1 to p6
 number:
   - platform: template
-    name: $node_prefix utetemperatur p1
+    name: Utetemperatur p1
     id: outdoor_temp_p1
     unit_of_measurement: °C
     initial_value: -10.0
@@ -40,7 +40,7 @@ number:
     step: 1
     mode: box
   - platform: template
-    name: $node_prefix framledningstemperatur p1
+    name: Framledningstemperatur p1
     id: supply_temp_p1
     unit_of_measurement: °C
     initial_value: 29.0
@@ -51,7 +51,7 @@ number:
     step: 0.1
     mode: box
   - platform: template
-    name: $node_prefix utetemperatur p2
+    name: Utetemperatur p2
     id: outdoor_temp_p2
     unit_of_measurement: °C
     initial_value: -5.0
@@ -62,7 +62,7 @@ number:
     step: 1
     mode: box
   - platform: template
-    name: $node_prefix framledningstemperatur p2
+    name: Framledningstemperatur p2
     id: supply_temp_p2
     unit_of_measurement: °C
     initial_value: 27.2
@@ -73,7 +73,7 @@ number:
     step: 0.1
     mode: box
   - platform: template
-    name: $node_prefix utetemperatur p3
+    name: Utetemperatur p3
     id: outdoor_temp_p3
     unit_of_measurement: °C
     initial_value: 0.0
@@ -84,7 +84,7 @@ number:
     step: 1
     mode: box
   - platform: template
-    name: $node_prefix framledningstemperatur p3
+    name: Framledningstemperatur p3
     id: supply_temp_p3
     unit_of_measurement: °C
     initial_value: 25.6
@@ -95,7 +95,7 @@ number:
     step: 0.1
     mode: box
   - platform: template
-    name: $node_prefix utetemperatur p4
+    name: Utetemperatur p4
     id: outdoor_temp_p4
     unit_of_measurement: °C
     initial_value: 5.0
@@ -106,7 +106,7 @@ number:
     step: 1
     mode: box
   - platform: template
-    name: $node_prefix framledningstemperatur p4
+    name: Framledningstemperatur p4
     id: supply_temp_p4
     unit_of_measurement: °C
     initial_value: 24.2
@@ -117,7 +117,7 @@ number:
     step: 0.1
     mode: box
   - platform: template
-    name: $node_prefix utetemperatur p5
+    name: Utetemperatur p5
     id: outdoor_temp_p5
     unit_of_measurement: °C
     initial_value: 10.0
@@ -128,7 +128,7 @@ number:
     step: 1
     mode: box
   - platform: template
-    name: $node_prefix framledningstemperatur p5
+    name: Framledningstemperatur p5
     id: supply_temp_p5
     unit_of_measurement: °C
     initial_value: 23.0
@@ -139,7 +139,7 @@ number:
     step: 0.1
     mode: box
   - platform: template
-    name: $node_prefix utetemperatur p6
+    name: Utetemperatur p6
     id: outdoor_temp_p6
     unit_of_measurement: °C
     initial_value: 20.0
@@ -150,7 +150,7 @@ number:
     step: 1
     mode: box
   - platform: template
-    name: $node_prefix framledningstemperatur p6
+    name: Framledningstemperatur p6
     id: supply_temp_p6
     unit_of_measurement: °C
     initial_value: 22.0
@@ -162,7 +162,7 @@ number:
     mode: box
 # Supply line temperature offset and scaling
   - platform: template
-    name: $node_prefix kurvförskjutning
+    name: Kurvförskjutning
     id: supply_temp_offset
     unit_of_measurement: °C
     initial_value: 0.0
@@ -173,7 +173,7 @@ number:
     step: 0.1
     mode: box
   - platform: template
-    name: $node_prefix kurvskalning
+    name: Kurvskalning
     id: supply_temp_multiply
     initial_value: 1.0
     restore_value: true
@@ -186,7 +186,7 @@ number:
 # Supply line temperature as function of outdoor temperature
 sensor:
   - platform: template
-    name: $node_prefix tillopp beräknad
+    name: Tillopp beräknad
     id: ${node_name}_supply_line_target_temperature
     icon: mdi:thermometer-auto
     unit_of_measurement: °C

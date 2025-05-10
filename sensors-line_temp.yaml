@@ -10,7 +10,7 @@ one_wire:
 sensor:
   # Supply line temperature
   - platform: dallas_temp
-    name: $node_prefix tillopp
+    name: Tillopp
     id: ${node_name}_supply_line_temperature
     update_interval: 10s
     one_wire_id: line_temperature_bus
@@ -19,7 +19,7 @@ sensor:
     accuracy_decimals: 2
   # Return line temperature
   - platform: dallas_temp
-    name: $node_prefix retur
+    name: Retur
     id: ${node_name}_return_line_temperature
     update_interval: 10s
     one_wire_id: line_temperature_bus
@@ -28,7 +28,7 @@ sensor:
     accuracy_decimals: 2
   # Mixing line temperature
   - platform: dallas_temp
-    name: $node_prefix blandning
+    name: Blandning
     id: ${node_name}_mixing_line_temperature
     update_interval: 10s
     one_wire_id: line_temperature_bus
@@ -37,7 +37,7 @@ sensor:
     accuracy_decimals: 2
   # Supply line temperature median
   - platform: template
-    name: $node_prefix tillopp medel
+    name: Tillopp medel
     id: ${node_name}_supply_line_temperature_median
     icon: mdi:thermometer
     unit_of_measurement: °C
@@ -53,7 +53,7 @@ sensor:
       - heartbeat: 10s
   # Supply and return line temperature difference
   - platform: template
-    name: $node_prefix värmebehov
+    name: Värmebehov
     id: ${node_name}_line_temperature_difference
     icon: mdi:thermometer
     unit_of_measurement: °C
@@ -68,14 +68,14 @@ sensor:
 
 ## Heat source supply and return lines
 #  - platform: dallas_temp
-#    name: $node_prefix framledning
+#    name: Framledning
 #    id: ${node_name}_supply_line_temperature
 #    update_interval: 20s
 #    one_wire_id: line_temperature_bus
 #    address: 0x7400000CAE1E8328
 #    resolution: 12
 #  - platform: dallas_temp
-#    name: $node_prefix returledning
+#    name: Returledning
 #    id: ${node_name}_return_line_temperature
 #    update_interval: 20s
 #    one_wire_id: line_temperature_bus

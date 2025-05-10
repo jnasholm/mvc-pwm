@@ -126,7 +126,7 @@ output:
 #   Derivative constant, kd:     4.0       (Td/Ts)
 climate:
   - platform: pid
-    name: $node_prefix framledningsreglering
+    name: Framledningsreglering
     id: ${node_name}_supply_line_controller
     sensor: ${node_name}_supply_line_temperature
     default_target_temperature: 21.0°C
@@ -155,14 +155,14 @@ climate:
 sensor:
   # Supply line modulation level decrease
   - platform: pid
-    name: $node_prefix reglernivå minska
+    name: Reglernivå minska
     id: ${node_name}_supply_line_modulation_level_decrease
     icon: mdi:chart-bell-curve-cumulative
     climate_id: ${node_name}_supply_line_controller
     type: COOL
   # Supply line modulation level increase
   - platform: pid
-    name: $node_prefix reglernivå öka
+    name: Reglernivå öka
     id: ${node_name}_supply_line_modulation_level_increase
     icon: mdi:chart-bell-curve-cumulative
     climate_id: ${node_name}_supply_line_controller
@@ -189,7 +189,7 @@ sensor:
     type: DERIVATIVE
   # Mixing valve actuator position 0-240 pulses
   - platform: template
-    name: $node_prefix ventilläge
+    name: Ventilläge
     id: ${node_name}_mixing_valve_position
     icon: mdi:pipe-valve
     unit_of_measurement: '%'
@@ -204,7 +204,7 @@ sensor:
 binary_sensor:
   # Decrease
   - platform: template
-    name: $node_prefix minska
+    name: Minska
     id: ${node_name}_mixing_valve_status_decrease
     icon: mdi:minus-circle
     filters:
@@ -217,7 +217,7 @@ binary_sensor:
       return false;
   # Neutral
   - platform: template
-    name: $node_prefix neutral
+    name: Neutral
     id: ${node_name}_mixing_valve_status_neutral
     icon: mdi:circle-outline
     filters:
@@ -235,7 +235,7 @@ binary_sensor:
       return false;
   # Increase
   - platform: template
-    name: $node_prefix öka
+    name: Öka
     id: ${node_name}_mixing_valve_status_increase
     icon: mdi:plus-circle
     filters:
@@ -248,7 +248,7 @@ binary_sensor:
       return false;
   # Controllable condition
   - platform: template
-    name: $node_prefix reglerbart läge
+    name: Reglerbart läge
     id: ${node_name}_controllable_condition
     icon: mdi:refresh-circle
     filters:
@@ -265,7 +265,7 @@ binary_sensor:
 number:
   # Mixing valve actuator position counter
   - platform: template
-    name: $node_prefix läge
+    name: Läge
     id: ${node_name}_mixing_valve_position_counter
     icon: mdi:knob
     unit_of_measurement: ""

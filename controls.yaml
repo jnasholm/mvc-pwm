@@ -11,7 +11,7 @@ esphome:
 switch:
   # Operational mode
   - platform: template
-    name: $node_prefix automatiskt driftläge
+    name: Automatiskt driftläge
     id: ${node_name}_controller_mode
     icon: mdi:thermostat-auto
     restore_mode: ALWAYS_ON
@@ -40,7 +40,7 @@ switch:
 
   # Manual decrease
   - platform: template
-    name: $node_prefix blandning minska
+    name: Blandning minska
     id: mixing_valve_manual_decrease
     icon: mdi:arrow-down-drop-circle
     turn_on_action:
@@ -61,7 +61,7 @@ switch:
           }
   # Manual increase
   - platform: template
-    name: $node_prefix blandning öka
+    name: Blandning öka
     id: mixing_valve_manual_increase
     icon: mdi:arrow-up-drop-circle
     turn_on_action:
@@ -82,7 +82,7 @@ switch:
           }
   # Actuator hold position
   - platform: template
-    name: $node_prefix lägeshållning
+    name: Lägeshållning
     id: ${node_name}_mixing_valve_position_hold
     icon: mdi:pause-circle
     turn_on_action:
@@ -98,7 +98,7 @@ switch:
 button:
   # Manual neutral
   - platform: template
-    name: $node_prefix blandning neutral
+    name: Blandning neutral
     id: mixing_valve_manual_neutral
     icon: mdi:stop-circle
     on_press:
