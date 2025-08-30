@@ -9,7 +9,7 @@ substitutions:
   node_name: gvs
   node_prefix: GVS
 
-# Board configuration
+# Project configuration
 esphome:
   project:
     name: "jnasholm.mvc-pwm"
