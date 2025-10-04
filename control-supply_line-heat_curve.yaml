@@ -1,0 +1,89 @@
+# Supply line temperature configuration
+
+# Default operational mode
+esphome:
+  on_boot:
+    priority: 201
+    then:
+      - switch.turn_on: ${node_name}_outdoor_temp_compensated_mode
+
+# Operational switches
+switch:
+  # Operational mode
+  - platform: template
+    name: Tillopp utetemperaturkompensering
+    id: ${node_name}_outdoor_temp_compensated_mode
+    icon: mdi:thermometer-auto
+    restore_mode: ALWAYS_ON
+    # Automatic outdoor temperature compensated supply line temperature mode
+    turn_on_action:
+      - lambda: |-
+          if ( id(${node_name}_controller_mode).state == 0 )
+            id(${node_name}_controller_mode).turn_on();
+          id(${node_name}_outdoor_temp_compensated_mode).publish_state(true);
+    # Manual supply line temperature mode
+    turn_off_action:
+      - lambda: |-
+          id(${node_name}_outdoor_temp_compensated_mode).publish_state(false);
+
+# Heat curve label (0.1 - 4.0) and supply line temperature set-point (18 - 40°C)
+number:
+  - platform: template
+    name: Värmekurva
+    id: supply_heat_curve
+    initial_value: 1.0
+    restore_value: true
+    optimistic: true
+    max_value: 4.0
+    min_value: 0.1
+    step: 0.1
+    mode: box
+  - platform: template
+    name: Framledningstemperatur
+    id: supply_temp_set
+    unit_of_measurement: °C
+    initial_value: 22.0
+    restore_value: true
+    optimistic: true
+    max_value: 40.0
+    min_value: 18.0
+    step: 0.1
+    mode: box
+
+# Supply line temperature as function of outdoor temperature
+# Heat curve equation by André Kühne, published on the Open Energy Monitor Forum
+# Equation factors a = 2.55 and b = 0.78
+sensor:
+  - platform: template
+    name: Tillopp beräknad
+    id: ${node_name}_supply_line_target_temperature
+    icon: mdi:thermometer-auto
+    unit_of_measurement: °C
+    device_class: temperature
+    state_class: measurement
+    accuracy_decimals: 2
+    update_interval: 10s
+    filters:
+#      - offset: 0.0
+#      - multiply: 1.0
+      - lambda: return x;
+      - heartbeat: 10s
+    on_value:
+      - if:
+          condition:
+            switch.is_on: ${node_name}_outdoor_temp_compensated_mode
+          then:
+            - climate.control:
+                id: ${node_name}_supply_line_controller
+                target_temperature: !lambda return x;
+    lambda: |-
+      float temp_od = id(outdoor_temperature).state;
+      float heat_curve = id(supply_heat_curve).state;
+      float temp_set = id(supply_temp_set).state;
+      float temp_sl = 0;
+      if ( (heat_curve > 0.0) && (temp_set > 0.0) )
+        temp_sl = temp_set + 2.55 * powf( heat_curve * (temp_set - temp_od), 0.78 );
+      /* Fail-safe value */
+      if ( (temp_sl < 10.0) || (temp_sl > 40.0) )
+        temp_sl = 22.5;
+      return temp_sl;

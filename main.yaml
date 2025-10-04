@@ -61,4 +61,5 @@ packages:
   line_temp: !include sensors-line_temp.yaml
   outdoor_temp: !include sensors-outdoor_temp.yaml
   supply_line: !include control-supply_line.yaml
+#  supply_line: !include control-supply_line-heat_curve.yaml
   mixing_valve: !include control-mixing_valve.yaml
