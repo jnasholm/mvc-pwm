@@ -51,6 +51,38 @@ sensor:
           window_size: 720  # 2 hours
           send_every: 1
       - heartbeat: 10s
+  # Return line temperature median
+  - platform: template
+    name: Retur medel
+    id: ${node_name}_return_line_temperature_median
+    icon: mdi:thermometer
+    unit_of_measurement: °C
+    device_class: temperature
+    state_class: measurement
+    accuracy_decimals: 2
+    update_interval: 10s
+    lambda: return (id(${node_name}_return_line_temperature).state);
+    filters:
+      - sliding_window_moving_average:
+          window_size: 720  # 2 hours
+          send_every: 1
+      - heartbeat: 10s
+  # Mixing line temperature median
+  - platform: template
+    name: Blandning medel
+    id: ${node_name}_mixing_line_temperature_median
+    icon: mdi:thermometer
+    unit_of_measurement: °C
+    device_class: temperature
+    state_class: measurement
+    accuracy_decimals: 2
+    update_interval: 10s
+    lambda: return (id(${node_name}_mixing_line_temperature).state);
+    filters:
+      - sliding_window_moving_average:
+          window_size: 720  # 2 hours
+          send_every: 1
+      - heartbeat: 10s
   # Supply and return line temperature difference
   - platform: template
     name: Värmebehov
