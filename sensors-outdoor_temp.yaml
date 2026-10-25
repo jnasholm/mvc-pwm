@@ -70,22 +70,58 @@ sensor:
 
 #  # Digital outdoor temperature sensor (DS18B20)
 #  - platform: dallas_temp
-#    name: Utetemperatur digital
-#    id: outdoor_temperature_digital
+#    name: Utetemperatur digital givare
+#    id: outdoor_temperature_digital_sensor
 #    accuracy_decimals: 2
 #    update_interval: 20s
 #    one_wire_id: outdoor_temperature_bus
-#    address: 0x2c0000081d200d28
+##    address: 0x2c0000081d200d28
 #    resolution: 12
+#    filters:
+#      - heartbeat: 20s
+#
+#  # Digital outdoor temperature
+#  - platform: exponential_moving_average
+#    name: Utetemperatur digital
+#    id: outdoor_temperature_digital
+#    sensor: outdoor_temperature_digital_sensor
+#    time_constant: 6min
+#    time_weighting: new
+
+  # Analog outdoor temperature voltage measurement
+  - platform: adc
+    name: Utetemperatur analog mätning
+    id: outdoor_temperature_analog_measure
+    accuracy_decimals: 3
+    pin: $analog_temp_pin
+    icon: mdi:current-dc
+    update_interval: never
+    attenuation: 12dB
+    samples: 80
+
+  # Analog outdoor temperature voltage measurement average
+  - platform: exponential_moving_average
+    name: Utetemperatur analog mätning medel
+    id: outdoor_temperature_analog_measure_average
+    sensor: outdoor_temperature_analog_measure
+    time_constant: 6min
+    time_weighting: new
+
+  # Analog outdoor temperature resistance calculation
+  - platform: resistance
+    name: Utetemperatur analog resistans
+    id: outdoor_temperature_analog_resistance
+    icon: mdi:omega
+    sensor: outdoor_temperature_analog_measure_average
+    configuration: DOWNSTREAM
+    resistor: 10kOhm
 
   # Analog outdoor temperature sensor (NTC)
-  # NTC Beta factor calculated according to the equation below
-  # https://www.ametherm.com/thermistor/ntc-thermistor-beta
   - platform: ntc
-    name: Utetemperatur analog
-    id: outdoor_temperature_analog
+    name: Utetemperatur analog givare
+    id: outdoor_temperature_analog_sensor
     accuracy_decimals: 2
-    sensor: outdoor_temperature_analog_sensor
+    sensor: outdoor_temperature_analog_resistance
     # NTC Beta factor calibration
 #    calibration:
 #      b_constant: 3919
@@ -106,30 +142,30 @@ sensor:
       - 2.75kOhm -> 20°C
     # - 2.20kOhm -> 25°C
     filters:
-      - sliding_window_moving_average:
-          window_size: 9
-          send_every: 1
-          send_first_at: 1
-#      - offset: -0.4
-  # Resistance calculation
-  - platform: resistance
-    name: Utetemperatur analog sensor
-    id: outdoor_temperature_analog_sensor
-    icon: mdi:omega
-    sensor: outdoor_temperature_analog_measure
-    configuration: DOWNSTREAM
-    resistor: 10kOhm
-  # Voltage measurement (range 0.15-2.45V)
-  - platform: adc
-    id: outdoor_temperature_analog_measure
-    pin: $analog_temp_pin
-    update_interval: never
-    attenuation: 12db
-    filters:
-      - exponential_moving_average:
-          alpha: 0.06
-          send_every: 3
-          send_first_at: 1
+      - lambda: return x + id(outdoor_temperature_analog_offset).state;
+#      - offset: 0.4
+
+  # Analog outdoor temperature
+  - platform: exponential_moving_average
+    name: Utetemperatur analog
+    id: outdoor_temperature_analog
+    sensor: outdoor_temperature_analog_sensor
+    time_constant: 6min
+    time_weighting: new
+
+# Analog outdoor temperature offset
+number:
+  - platform: template
+    name: Utetemperatur analog kompensering
+    id: outdoor_temperature_analog_offset
+    unit_of_measurement: °C
+    initial_value: 0.0
+    restore_value: true
+    optimistic: true
+    min_value: -10.0
+    max_value: 10.0
+    step: 0.1
+    mode: box
 
 # Analog temperature sensor power source configuration
 switch:
