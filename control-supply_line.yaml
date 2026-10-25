@@ -26,7 +26,7 @@ switch:
       - lambda: |-
           id(${node_name}_outdoor_temp_compensated_mode).publish_state(false);
 
-# Supply line temperature definition points, p1 to p6
+# Supply line temperature definition points, p1 to p7
 number:
   - platform: template
     name: Utetemperatur p1
@@ -131,7 +131,7 @@ number:
     name: Framledningstemperatur p5
     id: supply_temp_p5
     unit_of_measurement: °C
-    initial_value: 23.0
+    initial_value: 23.2
     restore_value: true
     optimistic: true
     max_value: 40.0
@@ -142,7 +142,7 @@ number:
     name: Utetemperatur p6
     id: outdoor_temp_p6
     unit_of_measurement: °C
-    initial_value: 20.0
+    initial_value: 15.0
     restore_value: true
     optimistic: true
     max_value: 30.0
@@ -152,6 +152,28 @@ number:
   - platform: template
     name: Framledningstemperatur p6
     id: supply_temp_p6
+    unit_of_measurement: °C
+    initial_value: 22.4
+    restore_value: true
+    optimistic: true
+    max_value: 40.0
+    min_value: 20.0
+    step: 0.1
+    mode: box
+  - platform: template
+    name: Utetemperatur p7
+    id: outdoor_temp_p7
+    unit_of_measurement: °C
+    initial_value: 20.0
+    restore_value: true
+    optimistic: true
+    max_value: 30.0
+    min_value: -20.0
+    step: 1
+    mode: box
+  - platform: template
+    name: Framledningstemperatur p7
+    id: supply_temp_p7
     unit_of_measurement: °C
     initial_value: 22.0
     restore_value: true
@@ -246,9 +268,16 @@ sensor:
         sl_1 = id(supply_temp_p5).state;
         sl_2 = id(supply_temp_p6).state;
       }
-      /* Constant supply line temperature (p6 and above) */
-      if ( temp_od >= id(outdoor_temp_p6).state )
-        temp_sl = id(supply_temp_p6).state;
+      /* Linear interpolation points (p6,p7) */
+      if ( (temp_od >= id(outdoor_temp_p6).state) && (temp_od < id(outdoor_temp_p7).state) ) {
+        od_1 = id(outdoor_temp_p6).state;
+        od_2 = id(outdoor_temp_p7).state;
+        sl_1 = id(supply_temp_p6).state;
+        sl_2 = id(supply_temp_p7).state;
+      }
+      /* Constant supply line temperature (p7 and above) */
+      if ( temp_od >= id(outdoor_temp_p7).state )
+        temp_sl = id(supply_temp_p7).state;
       /* Linear interpolation calculation */
       if ( od_2 - od_1 > 0 )
         temp_sl = sl_1 + (sl_2 - sl_1)/(od_2 - od_1) * (temp_od - od_1);

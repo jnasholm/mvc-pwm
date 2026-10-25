@@ -65,7 +65,7 @@ flowchart TD
 |**Controller mode**|Switch on for automatic mode, switch off for manual mode.|on|
 |**Outdoor temperature compensation**|Switch on for compensation, switch off for no compensation.|on|
 |**Position hold**|Switch on to enable actuator position hold, switch off to release actuator position hold.|off|
-|**Temperature compensation set-points**|Generally known as “heating curve”. A set of temperature points between which the target supply line temperature is calculated based on meassured outdoor temperature. Calculation principle is linear interpolation. The target supply line temperature is constant for outdoor temperatures above the highest set-point. Available points are p1 to p6.|[Table](#default-compensation-set-points)|
+|**Temperature compensation set-points**|Generally known as “heating curve”. A set of temperature points between which the target supply line temperature is calculated based on meassured outdoor temperature. Calculation principle is linear interpolation. The target supply line temperature is constant for outdoor temperatures above the highest set-point. Available points are p1 to p7.|[Table](#default-compensation-set-points)|
 
 ### Default compensation set-points
 
@@ -73,12 +73,13 @@ My controller set-up has the following temperature compensation set-points. Stil
 
 |Point|Outdoor temperature|Target supply line temperature|
 |:------:|:------:|:------:|
-|```p1```|-10|29.0|
-|```p2```|-5|27.2|
+|```p1```|-10|28.2|
+|```p2```|-5|27.0|
 |```p3```|0|25.6|
 |```p4```|5|24.2|
-|```p5```|10|23.0|
-|```p6```|20|22.0|
+|```p5```|10|23.2|
+|```p6```|15|22.4|
+|```p7```|20|22.0|
 
 > [!NOTE]
 > All temperatures are entered in °C.
