@@ -69,7 +69,7 @@ flowchart TD
 
 ### Default compensation set-points
 
-My controller set-up has the following temperature compensation set-points. Still experimenting and tweaking these during the autumn 2023 and winter 2024.
+My controller set-up has the following temperature compensation set-points. Still experimenting and tweaking these during the autumn 2023 and winter 2024. Default temperatures adjusted slightly and definition point p7 was added in the autumn of 2026.
 
 |Point|Outdoor temperature|Target supply line temperature|
 |:------:|:------:|:------:|
